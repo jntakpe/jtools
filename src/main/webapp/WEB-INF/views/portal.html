@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="../fragments/headFragment :: head">
+</head>
+<body>
+<header th:include="../fragments/menuFragment :: fullMenu"></header>
+<div id="mainContainer" class="container">
+    <div th:include="../fragments/alertFragment :: alertList"></div>
+    <div class="row">
+        <h1>Accueil</h1>
+        <br/>
+    </div>
+</div>
+<footer th:include="../fragments/footerFragment :: footer"></footer>
+</body>
+</html>

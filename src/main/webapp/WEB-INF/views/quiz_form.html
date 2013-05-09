@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="../fragments/headFragment :: head"></head>
+<body>
+<header th:include="../fragments/menuFragment :: fullMenu"></header>
+<div class="container row">
+    <div th:include="../fragments/alertFragment :: alertForm"></div>
+    <div class="offset2">
+        <form id="quiz-form" class="form-horizontal" th:object="${quiz}" method="post" th:action="@{/quiz}">
+            <fieldset>
+                <input type="hidden" id="id-quiz" th:field="*{id}"/>
+                <input type="hidden" id="version-quiz" th:field="*{version}"/>
+                <legend th:text="${quiz.id == null} ? 'Création d\'un nouveau quiz' : 'Modification d\'un quiz'">
+                </legend>
+
+                <div class="control-group">
+                    <label class="control-label" for="title">Titre</label>
+
+                    <div class="controls">
+                        <input type="text" id="title" th:field="*{title}" maxlength="50"/>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        <form id="question-form" class="form-horizontal" th:action="@{/question}" method="post">
+            <fieldset>
+                <legend id="legend-question">Question n°</legend>
+                <input type="hidden" id="id-question" name="id"/>
+                <input type="hidden" id="version-question" name="version"/>
+                <input type="hidden" id="number" name="number"/>
+
+                <div class="control-group">
+                    <label class="control-label" for="label">Libellé</label>
+
+                    <div class="controls">
+                        <textarea id="label" name="label" rows="2"></textarea>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="firstAnswer">Première proposition</label>
+
+                    <div class="controls">
+                        <input type="text" id="firstAnswer" name="firstAnswer" class="input-xlarge"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="secondAnswer">Seconde proposition</label>
+
+                    <div class="controls">
+                        <input type="text" id="secondAnswer" name="secondAnswer" class="input-xlarge"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="thirdAnswer">Troisième proposition</label>
+
+                    <div class="controls">
+                        <input type="text" id="thirdAnswer" name="thirdAnswer" class="input-xlarge"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="fourthAnswer">Quatrième proposition</label>
+
+                    <div class="controls">
+                        <input type="text" id="fourthAnswer" name="fourthAnswer" class="input-xlarge"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="fourthAnswer">Bonne réponse</label>
+
+                    <div class="controls">
+                        <label class="radio inline">
+                            <input type="radio" name="correctAnswer" value="1" checked="checked"/> 1
+                        </label>
+                        <label class="radio inline">
+                            <input type="radio" name="correctAnswer" value="2"/> 2
+                        </label>
+                        <label class="radio inline">
+                            <input type="radio" name="correctAnswer" value="3"/> 3
+                        </label>
+                        <label class="radio inline">
+                            <input type="radio" name="correctAnswer" value="4"/> 4
+                        </label>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="explanation">Explication</label>
+
+                    <div class="controls">
+                        <textarea id="explanation" name="explanation" rows="2"></textarea>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        <div id="quiz-actions">
+            <button id="previous-question" class="btn" disabled="disabled">
+                <i class="icon-circle-arrow-left"></i> Précédent
+            </button>
+            <button id="add-button" class="btn btn-success">
+                <i class="icon-plus"></i> Ajouter/Modifier
+            </button>
+            <button id="delete-question" class="btn btn-danger" disabled="disabled">
+                <i class="icon-trash"></i> Supprimer
+            </button>
+            <button id="next-question" class="btn" disabled="disabled"> Suivant
+                <i class="icon-circle-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+</div>
+<footer th:include="../fragments/footerFragment :: footer">
+</footer>
+<script th:src="@{/static/js/specific/quiz.js}"></script>
+</body>
+</html>

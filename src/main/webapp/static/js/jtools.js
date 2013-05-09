@@ -1,0 +1,167 @@
+var jTools = {
+    ajax: {
+        /**
+         * Contrôle ajax
+         * @param url du contrôleur gérant ce champ
+         * @returns {{url: *, data: {id: (*|jQuery)}}}
+         */
+        control: function (url) {
+            'use strict';
+            return {
+                url: url,
+                data: {
+                    id: $('#id').val()
+                }
+            };
+        },
+        /**
+         * Suppression d'une ligne
+         * @param params
+         */
+        remove: function (params) {
+            "use strict";
+            $('#confirmDeletePopup').modal('hide');
+            var dataTable = $('table[id$=-table]').dataTable();
+            var path = window.location.pathname;
+            var deleteUrl = path.match(/\/$/) ? path + params.data.id : path + "/" + params.data.id;
+            $.ajax({
+                type: 'DELETE',
+                url: deleteUrl
+            }).done(
+                function (data) {
+                    if (data.success) {
+                        dataTable.fnDeleteRow(params.data.row);
+                        jTools.alert.success("list", data.message);
+                    } else {
+                        dataTable.fnReloadAjax();
+                        jTools.alert.error("list", data.message);
+                    }
+                }
+            ).error(
+                function () {
+                    dataTable.fnReloadAjax();
+                    jTools.alert.error("list", "Une erreur inconnue est survenue");
+                }
+            );
+        }
+    },
+    alert: {
+        //Timeout par défaut
+        defaultTimeout: 10000,
+        //Timeout courant
+        currentTimeout: 0,
+        /**
+         * Affiche un message de succès dans le bandeau
+         * @param suffix du conteneur de l'alerte ('form' pour alert-form ou 'list' pour alert-list)
+         * @param [message] à afficher
+         */
+        success: function (suffix, message) {
+            "use strict";
+            if (!message) {
+                message = "Opération effectuée avec succès";
+            }
+            clearTimeout(jTools.alert.currentTimeout);
+            var alertDiv = $("#alert-" + suffix);
+            alertDiv.children('span').text(message);
+            if (alertDiv.hasClass('alert-error')) {
+                alertDiv.removeClass('alert-error');
+            }
+            if (!alertDiv.hasClass('alert-success')) {
+                alertDiv.addClass('alert-success');
+            }
+            var alertIcon = alertDiv.children('i');
+            if (alertIcon.hasClass('icon-warning-sign-large')) {
+                alertIcon.removeClass('icon-warning-sign-large');
+            }
+            if (!alertIcon.hasClass('icon-ok-large')) {
+                alertIcon.addClass('icon-ok-large');
+            }
+            alertDiv.addClass('in');
+            jTools.alert.currentTimeout = window.setTimeout(function () {
+                alertDiv.removeClass('in');
+            }, jTools.alert.defaultTimeout);
+        },
+        /**
+         * Affiche un message d'erreur dans le bandeau
+         * @param suffix conteneur de l'alerte
+         * @param [message] à afficher
+         */
+        error: function (suffix, message) {
+            "use strict";
+            if (!message) {
+                message = "Une erreur inconnue est survenue";
+            }
+            clearTimeout(jTools.alert.currentTimeout);
+            var alertDiv = $("#alert-" + suffix);
+            alertDiv.children('span').text(message);
+            if (alertDiv.hasClass('alert-success')) {
+                alertDiv.removeClass('alert-success');
+            }
+            if (!alertDiv.hasClass('alert-error')) {
+                alertDiv.addClass('alert-error');
+            }
+            var alertIcon = alertDiv.children('i');
+            if (alertIcon.hasClass('icon-ok-large')) {
+                alertIcon.removeClass('icon-ok-large');
+            }
+            if (!alertIcon.hasClass('icon-warning-sign-large')) {
+                alertIcon.addClass('icon-warning-sign-large');
+            }
+            alertDiv.addClass('in');
+        }
+    },
+    table: {
+        action: function () {
+            "use strict";
+            return {
+                mData: "id",
+                sWidth: 25,
+                bSearchable: false,
+                bSortable: false,
+                sClass: "center",
+                mRender: function (data) {
+                    var path = window.location.pathname;
+                    var editUrl = path.match(/\/$/) ? path + data : path + "/" + data;
+                    var btnEdit = "<a href='" + editUrl + "'><i class='icon-edit icon-large'></i></a>";
+                    var fct = "jTools.popup.confirm(" + data + ",$(this))";
+                    var btnDelete = "<a href='javascript:;' onclick='" + fct + "'>" +
+                        "<i class='icon-trash icon-large pull-right'></i></a>";
+                    return btnEdit + btnDelete;
+                }
+            };
+        }
+    },
+    popup: {
+        /**
+         * Affiche la popup de confirmation de la suppression d'une ligne
+         * @param id identifiant de la ligne
+         * @param event évennement
+         */
+        confirm: function (id, event) {
+            "use strict";
+            $('#delete-btn').off('click', jTools.ajax.remove)
+                .on('click', {id: id, row: event.parents('tr')[0]}, jTools.ajax.remove);
+            $('#confirmDeletePopup').modal();
+        }
+    }
+};
+
+$(function () {
+    'use strict';
+
+    //Fermeture automatique des alertes
+    if ($('.alert').is(':visible')) {
+        setTimeout(function () {
+            $('.alert').removeClass('in');
+            clearTimeout(jTools.alert.currentTimeout);
+        }, jTools.alert.defaultTimeout);
+    }
+
+    //Fermeture des alertes après click sur 'close'
+    $('#close-alert-form, #close-alert-list').click(function () {
+        $(this).parent('.alert').removeClass('in');
+    });
+
+    //Tooltips
+    $('a[data-toggle=tooltip]').tooltip();
+});

@@ -1,0 +1,24 @@
+<!-- Fragment pour les popups -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="confirmDeletePopupFragment">
+    <div id="confirmDeletePopup" class="modal hide" tabindex="-1" role="dialog"
+         aria-labelledby="Confirmation suppression" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3>Confirmation suppression</h3>
+        </div>
+        <div class="modal-body">
+            <span id="delete-message">Veuillez confirmer la suppression de la ligne</span>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+            <button id="delete-btn" class="btn btn-primary">Supprimer</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="../fragments/headFragment :: head">
+</head>
+<body>
+<header th:include="../fragments/menuFragment :: emptyMenu">
+</header>
+<div id="connexion-container" class="container">
+    <div class="row">
+        <div class="alert alert-error fade in" th:if="${authentication != null}">
+            <i class="icon-warning-sign"></i>
+            <span th:text="${authentication == 'failure'} ?
+             'Échec de l\'authentification': 'Délai de connexion dépassé'"/>
+            <button type="button" class="close">&times;</button>
+        </div>
+        <div th:if="${responseMessage != null}"
+             th:class="${responseMessage.success} ? 'alert alert-success fade in' : 'alert alert-error fade in'">
+            <i id="alert-list-icon" th:class="${responseMessage.success} ? 'icon-ok' : 'icon-warning-sign'"></i>
+            <span id="alert-message" th:text="${responseMessage.message}"/>
+            <button type="button" class="close">&times;</button>
+        </div>
+        <div id="formBody">
+            <h2>Connexion</h2>
+
+            <form id="connexion-form" class="form-vertical" th:action="@{/login}" method="post">
+                <div class="control-group">
+                    <label class="control-label" for="username">Utilisateur</label>
+
+                    <div class="input-prepend">
+                        <span class="add-on"><i class="icon-user"></i></span>
+                        <input type="text" id="username" name="j_username" maxlength="40" placeholder="Utilisateur"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="password">Mot de passe</label>
+
+                    <div class="input-prepend">
+                        <span class="add-on"><i class="icon-lock"></i></span>
+                        <input type="password" id="password" name="j_password" maxlength="40"
+                               placeholder="Mot de passe"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <label class="control-label">
+                            <input type="checkbox" name="_spring_security_remember_me"/>
+                            Rester connecté ?
+                        </label>
+                    </div>
+                </div>
+                <p>
+                    <button type="submit" class="btn btn-success">
+                        <i class="icon-signin"></i> Valider
+                    </button>
+                    &nbsp;&nbsp;&nbsp;
+                    <button type="reset" class="btn">
+                        <i class="icon-undo"></i> Reset
+                    </button>
+                </p>
+                <p>
+                    <a th:href="@{/register}">S'enregistrer</a>
+                    &nbsp;&nbsp;&nbsp;
+                    <a th:href="@{/sendpassword}">Mot de passe oublié</a>
+                </p>
+            </form>
+        </div>
+    </div>
+    <footer th:include="../fragments/footerFragment :: footer">
+    </footer>
+</div>
+</body>
+</html>

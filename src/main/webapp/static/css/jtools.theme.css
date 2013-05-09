@@ -1,0 +1,70 @@
+/*Général*/
+body {
+    margin-top: 115px;
+    margin-bottom: 80px;
+}
+
+fieldset {
+    margin-top: 20px;
+}
+
+/*Menu*/
+
+.navbar-inner {
+    background-color: #45515F;
+}
+
+.navbar [class^="icon-"] {
+    vertical-align: 5%;
+}
+
+#logout {
+    margin-top: 25px;
+    font-size: 22px;
+}
+
+/*Connexion*/
+
+#connexion-container {
+    margin-top: 200px;
+    width: 300px;
+}
+
+#connexion-container > .row {
+    border: solid 1px;
+    text-align: center;
+}
+
+/*Tables*/
+
+table.dataTable tr.even {
+    background-color: #2A333C;
+}
+
+table.dataTable tr.odd td.sorting_1 {
+    background-color: #45515F;
+}
+
+table.dataTable tr.odd td.sorting_2 {
+    background-color: #45515F;
+}
+
+table.dataTable tr.odd td.sorting_3 {
+    background-color: #45515F;
+}
+
+table.dataTable tr.even td.sorting_1 {
+    background-color: #2A333C;
+}
+
+table.dataTable tr.even td.sorting_2 {
+    background-color: #2A333C;
+}
+
+table.dataTable tr.even td.sorting_3 {
+    background-color: #2A333C;
+}
+
+.table, .table-striped tbody > tr > td:first-child, .table-striped tbody > tr > td:last-child {
+    border-radius: 0;
+}

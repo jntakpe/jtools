@@ -1,0 +1,13 @@
+/*Age*/
+#age-table tr td:first-child {
+    text-align: right;
+    padding-right: 20px;
+
+}
+
+#age-table {
+    display: none;
+    font-size: 20px;
+    width: 300px;
+    margin-left: 100px;
+}
