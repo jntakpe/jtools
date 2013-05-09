@@ -31,7 +31,6 @@ public class Question extends GenericDomain {
     @Column(nullable = false)
     private char correctAnswer;
 
-    @Column(nullable = false)
     private String explanation;
 
     @ManyToOne
@@ -133,6 +132,6 @@ public class Question extends GenericDomain {
 
     @Override
     public String toString() {
-        return label;
+        return number.toString() + "du quiz : " + quiz;
     }
 }

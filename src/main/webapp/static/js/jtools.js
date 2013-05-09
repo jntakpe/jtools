@@ -1,3 +1,7 @@
+/**
+ * Scope de l'application jTools
+ * @type {{ajax: {control: Function, remove: Function}, alert: {defaultTimeout: number, currentTimeout: number, success: Function, error: Function}, table: {action: Function}, popup: {confirm: Function}}}
+ */
 var jTools = {
     ajax: {
         /**
@@ -21,9 +25,8 @@ var jTools = {
         remove: function (params) {
             "use strict";
             $('#confirmDeletePopup').modal('hide');
-            var dataTable = $('table[id$=-table]').dataTable();
-            var path = window.location.pathname;
-            var deleteUrl = path.match(/\/$/) ? path + params.data.id : path + "/" + params.data.id;
+            var dataTable = $('table[id$=-table]').dataTable(), path = window.location.pathname, deleteUrl;
+            deleteUrl = path.match(/\/$/) ? path + params.data.id : path + "/" + params.data.id;
             $.ajax({
                 type: 'DELETE',
                 url: deleteUrl
@@ -61,7 +64,7 @@ var jTools = {
                 message = "Opération effectuée avec succès";
             }
             clearTimeout(jTools.alert.currentTimeout);
-            var alertDiv = $("#alert-" + suffix);
+            var alertDiv = $("#alert-" + suffix), alertIcon = alertDiv.children('i');
             alertDiv.children('span').text(message);
             if (alertDiv.hasClass('alert-error')) {
                 alertDiv.removeClass('alert-error');
@@ -69,7 +72,6 @@ var jTools = {
             if (!alertDiv.hasClass('alert-success')) {
                 alertDiv.addClass('alert-success');
             }
-            var alertIcon = alertDiv.children('i');
             if (alertIcon.hasClass('icon-warning-sign-large')) {
                 alertIcon.removeClass('icon-warning-sign-large');
             }
@@ -92,7 +94,7 @@ var jTools = {
                 message = "Une erreur inconnue est survenue";
             }
             clearTimeout(jTools.alert.currentTimeout);
-            var alertDiv = $("#alert-" + suffix);
+            var alertDiv = $("#alert-" + suffix), alertIcon = alertDiv.children('i');
             alertDiv.children('span').text(message);
             if (alertDiv.hasClass('alert-success')) {
                 alertDiv.removeClass('alert-success');
@@ -100,7 +102,6 @@ var jTools = {
             if (!alertDiv.hasClass('alert-error')) {
                 alertDiv.addClass('alert-error');
             }
-            var alertIcon = alertDiv.children('i');
             if (alertIcon.hasClass('icon-ok-large')) {
                 alertIcon.removeClass('icon-ok-large');
             }
@@ -120,11 +121,11 @@ var jTools = {
                 bSortable: false,
                 sClass: "center",
                 mRender: function (data) {
-                    var path = window.location.pathname;
-                    var editUrl = path.match(/\/$/) ? path + data : path + "/" + data;
-                    var btnEdit = "<a href='" + editUrl + "'><i class='icon-edit icon-large'></i></a>";
-                    var fct = "jTools.popup.confirm(" + data + ",$(this))";
-                    var btnDelete = "<a href='javascript:;' onclick='" + fct + "'>" +
+                    var path = window.location.pathname, editUrl, btnEdit, fct, btnDelete;
+                    editUrl = path.match(/\/$/) ? path + data : path + "/" + data;
+                    btnEdit = "<a href='" + editUrl + "'><i class='icon-edit icon-large'></i></a>";
+                    fct = "jTools.popup.confirm(" + data + ",$(this))";
+                    btnDelete = "<a href='javascript:;' onclick='" + fct + "'>" +
                         "<i class='icon-trash icon-large pull-right'></i></a>";
                     return btnEdit + btnDelete;
                 }
@@ -146,6 +147,9 @@ var jTools = {
     }
 };
 
+/**
+ * jQuery document ready
+ */
 $(function () {
     'use strict';
 
@@ -165,3 +169,17 @@ $(function () {
     //Tooltips
     $('a[data-toggle=tooltip]').tooltip();
 });
+
+/**
+ * Prototypage
+ */
+Object.size = function (obj) {
+    "use strict";
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            size += 1;
+        }
+    }
+    return size;
+};

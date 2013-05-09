@@ -3,3 +3,10 @@ INSERT INTO public.users (id, version, birthdate, email, firstname, lastaccess, 
 INSERT INTO public.users (id, version, birthdate, email, firstname, lastaccess, lastname, login, password, phone, role) VALUES (3, 0, '1986-05-25 00:00:00', 'charles-eric.giraud@sopragroup.com', 'Charles-Eric', '1986-05-25 00:00:00', 'GIRAUD', 'Selrak', 'lolilol', '51525', 'ROLE_USER');
 INSERT INTO public.users (id, version, birthdate, email, firstname, lastaccess, lastname, login, password, phone, role) VALUES (4, 0, '2013-04-30 23:51:09', 'natacha.berges@sopragroup.com', 'Natacha', '2013-04-30 23:51:09', 'BERGES', 'nberges', 'lolilol', '51333', 'ROLE_USER');
 INSERT INTO public.users (id, version, birthdate, email, firstname, lastaccess, lastname, login, password, phone, role) VALUES (5, 0, '2013-04-30 23:51:09', 'arnaud.pradelles@sopragroup.com', 'Arnaud', '2013-04-30 23:51:09', 'PRADELLES', 'Piwi', 'lolilol', '51345', 'ROLE_USER');
+
+INSERT INTO public.question (id, version, correctanswer, explanation, firstanswer, fourthanswer, label, number, secondanswer, thirdanswer, quiz_id) VALUES (50, 0, '2', 'Java est compilé et interprété par contre c''est un langage impératif.', 'Java est un langage compilé', 'Java est un langage orienté objet', 'Quelle proposition est incorrecte ?', 1, 'Java est un langage fonctionnel', 'Java est un langage interprété', 50);
+INSERT INTO public.question (id, version, correctanswer, explanation, firstanswer, fourthanswer, label, number, secondanswer, thirdanswer, quiz_id) VALUES (51, 0, '4', '', 'un seul', 'zéro, un ou plusieurs', 'Combien de constructeur faut-il définir pour une classe ?', 2, 'un ou plusieurs', 'zéro ou un', 50);
+INSERT INTO public.question (id, version, correctanswer, explanation, firstanswer, fourthanswer, label, number, secondanswer, thirdanswer, quiz_id) VALUES (52, 1, '2', 'toto et tutu sont des références du même objet.', '1', '', 'String toto = "toto";
+String titi = "titi";
+String tutu = "toto";
+Combien de String sont créés ?', 3, '2', '3', 50);

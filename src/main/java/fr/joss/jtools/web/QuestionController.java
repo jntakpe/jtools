@@ -40,4 +40,10 @@ public class QuestionController {
             return ResponseMessage.getSuccessMessage("Question '" + question + "' modifiée.", maj);
         }
     }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public Question find(@PathVariable Long id) {
+        return questionService.findOne(id);
+    }
 }

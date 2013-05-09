@@ -24,7 +24,7 @@
         </form>
         <form id="question-form" class="form-horizontal" th:action="@{/question}" method="post">
             <fieldset>
-                <legend id="legend-question">Question n°</legend>
+                <legend>Question n° <span id="nb"></span></legend>
                 <input type="hidden" id="id-question" name="id"/>
                 <input type="hidden" id="version-question" name="version"/>
                 <input type="hidden" id="number" name="number"/>
