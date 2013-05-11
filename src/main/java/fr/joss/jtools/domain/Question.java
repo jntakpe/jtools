@@ -1,5 +1,7 @@
 package fr.joss.jtools.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 /**
@@ -9,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 @SequenceGenerator(name = "SG", sequenceName = "SEQ_QUESTION")
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"number", "label", "quiz_id"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"number", "quiz_id"}))
 public class Question extends GenericDomain {
 
     @Column(nullable = false)
@@ -29,10 +31,14 @@ public class Question extends GenericDomain {
     private String fourthAnswer;
 
     @Column(nullable = false)
-    private char correctAnswer;
+    private Integer correctAnswer;
 
     private String explanation;
 
+    @Column(nullable = false)
+    private Integer time;
+
+    @JsonIgnore
     @ManyToOne
     private Quiz quiz;
 
@@ -84,11 +90,11 @@ public class Question extends GenericDomain {
         this.fourthAnswer = fourthAnswer;
     }
 
-    public char getCorrectAnswer() {
+    public Integer getCorrectAnswer() {
         return correctAnswer;
     }
 
-    public void setCorrectAnswer(char correctAnswer) {
+    public void setCorrectAnswer(Integer correctAnswer) {
         this.correctAnswer = correctAnswer;
     }
 
@@ -98,6 +104,14 @@ public class Question extends GenericDomain {
 
     public void setExplanation(String explanation) {
         this.explanation = explanation;
+    }
+
+    public Integer getTime() {
+        return time;
+    }
+
+    public void setTime(Integer time) {
+        this.time = time;
     }
 
     public Quiz getQuiz() {
@@ -115,7 +129,6 @@ public class Question extends GenericDomain {
 
         Question question = (Question) o;
 
-        if (!label.equals(question.label)) return false;
         if (!number.equals(question.number)) return false;
         if (!quiz.equals(question.quiz)) return false;
 
@@ -125,13 +138,12 @@ public class Question extends GenericDomain {
     @Override
     public int hashCode() {
         int result = number.hashCode();
-        result = 31 * result + label.hashCode();
         result = 31 * result + quiz.hashCode();
         return result;
     }
 
     @Override
     public String toString() {
-        return number.toString() + "du quiz : " + quiz;
+        return number.toString() + " du quiz : " + quiz;
     }
 }

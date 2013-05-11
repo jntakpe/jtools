@@ -10,6 +10,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Implémentation des services associés à l'entité {@link Question}
  *
@@ -36,5 +38,26 @@ public class QuestionServiceImpl extends GenericServiceImpl<Question> implements
         Quiz quiz = quizService.findOne(quizId);
         question.setQuiz(quiz);
         return super.save(question);
+    }
+
+    @Override
+    @Transactional
+    public void updateNumber(Quiz quiz, Integer number) {
+        List<Question> questions = questionRepository.findByQuizAndNumberGreaterThanOrderByNumberAsc(quiz, number);
+        for (Question question : questions) {
+            question.setNumber(question.getNumber() - 1);
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Long[] findByQuizOrderByNumberAsc(Long quizId) {
+        List<Question> questions = questionRepository.findByQuizOrderByNumberAsc(quizService.findOne(quizId));
+        int size = questions.size();
+        Long[] ids = new Long[size];
+        for (int i = 0; i < size; i++) {
+            ids[i] = questions.get(i).getId();
+        }
+        return ids;
     }
 }

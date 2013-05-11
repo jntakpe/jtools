@@ -3,6 +3,7 @@ package fr.joss.jtools.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,6 +25,11 @@ public class Quiz extends GenericDomain {
 
     @ManyToOne
     private User creator;
+
+    @Column(nullable = false)
+    private Date createDate;
+
+    private Integer execNumber;
 
     @JsonIgnore
     @OneToMany(mappedBy = "quizUserId.quiz")
@@ -51,6 +57,22 @@ public class Quiz extends GenericDomain {
 
     public void setCreator(User creator) {
         this.creator = creator;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Integer getExecNumber() {
+        return execNumber;
+    }
+
+    public void setExecNumber(Integer execNumber) {
+        this.execNumber = execNumber;
     }
 
     public Set<QuizUser> getQuizUsers() {

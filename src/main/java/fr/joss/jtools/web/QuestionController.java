@@ -2,6 +2,7 @@ package fr.joss.jtools.web;
 
 import fr.joss.jtools.domain.Question;
 import fr.joss.jtools.service.QuestionService;
+import fr.joss.jtools.service.QuizService;
 import fr.joss.jtools.util.IdVersion;
 import fr.joss.jtools.util.ResponseMessage;
 import org.slf4j.Logger;
@@ -25,6 +26,9 @@ public class QuestionController {
     @Autowired
     private QuestionService questionService;
 
+    @Autowired
+    private QuizService quizService;
+
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public ResponseMessage save(@ModelAttribute Question question, @RequestParam Long quizId) {
@@ -34,10 +38,10 @@ public class QuestionController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         if (isNew) {
             logger.info("{} a créé la question '{}'", username, question);
-            return ResponseMessage.getSuccessMessage("Question '" + question + "' créée.", maj);
+            return ResponseMessage.getSuccessMessage("Question " + question + " créée.", maj);
         } else {
             logger.info("{} a modifié la question '{}'", username, question);
-            return ResponseMessage.getSuccessMessage("Question '" + question + "' modifiée.", maj);
+            return ResponseMessage.getSuccessMessage("Question " + question + " modifiée.", maj);
         }
     }
 
@@ -45,5 +49,20 @@ public class QuestionController {
     @ResponseBody
     public Question find(@PathVariable Long id) {
         return questionService.findOne(id);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public ResponseMessage delete(@PathVariable Long id) {
+        Question question = questionService.findOne(id);
+        questionService.delete(question);
+        questionService.updateNumber(question.getQuiz(), question.getNumber());
+        return ResponseMessage.getSuccessMessage("Question " + question + " supprimée.");
+    }
+
+    @RequestMapping(value = "/{id}/list", method = RequestMethod.GET)
+    @ResponseBody
+    public Long[] list(@PathVariable Long id) {
+        return questionService.findByQuizOrderByNumberAsc(id);
     }
 }

@@ -1,10 +1,10 @@
 $(function () {
     "use strict";
 
-    var questionMap = {}, currentQuestion = 1, quizChanged = false, questionChanged = false, quizForm = $('#quiz-form'),
+    var questions = [], currentQuestion = 0, quizChanged = false, questionChanged = false, quizForm = $('#quiz-form'),
         questionForm = $('#question-form');
 
-    /**
+    /**                                                                                                                  jtools
      * Récupère une question avec son id et l'affiche
      * @param id identifiant de la question
      */
@@ -17,7 +17,7 @@ $(function () {
                     var name = $(this).attr('name'), jsonValue = response[name];
                     if (jsonValue !== undefined) {
                         if (this.type === 'radio') {
-                            if ($(this).attr('value') === jsonValue) {
+                            if (parseInt($(this).attr('value'), 10) === jsonValue) {
                                 $(this).trigger('click');
                             }
                         } else {
@@ -30,7 +30,6 @@ $(function () {
                 jTools.alert.error('form');
             });
     }
-
 
     /**
      * Vide le formulaire des questions
@@ -67,21 +66,72 @@ $(function () {
      * Gestion des modifications sur la navigation
      */
     function navChange() {
-        if (Object.size(questionMap) >= currentQuestion) {
+        if (questions.length > currentQuestion) {
             enable($('#next-question'));
+            enable($('#delete-question'));
         } else {
             disable($('#next-question'));
+            disable($('#delete-question'));
         }
-        if (currentQuestion > 1) {
+        if (currentQuestion > 0) {
             enable($('#previous-question'));
         } else {
             disable($('#previous-question'));
         }
     }
 
+    /**
+     * Met à jour le numéro de la question actuelle
+     */
     function majNumber() {
-        $('#nb').text(currentQuestion);
+        $('#nb').text(currentQuestion + 1);
         $('#number').val(currentQuestion);
+    }
+
+    /**
+     * Dans le cas d'une mise à jour de quiz récupère la liste des ids de questions
+     */
+    function getQuestions() {
+        $.ajax({
+            url: '/jtools/question/' + $('#id-quiz').val() + '/list'
+        })
+            .done(function (response) {
+                questions = response;
+                ajaxQuestion(questions[0]);
+                navChange();
+            })
+            .error(function () {
+                jTools.alert.error('form');
+            });
+    }
+
+    /**
+     * Supprime une question en fonction de son identifiant
+     * @param id identifiant de la question a supprimer
+     */
+    function ajaxDelete(id) {
+        $.ajax({
+            url: '/jtools/question/' + id,
+            type: 'DELETE'
+        })
+            .done(function (response) {
+                if (response.success) {
+                    questions.splice(currentQuestion, 1);
+                    jTools.alert.success('form', response.message);
+                    if (currentQuestion > 0) {
+                        $('#previous-question').trigger('click');
+                    } else {
+                        clearQuestionForm();
+                        navChange();
+                        majNumber();
+                    }
+                } else {
+                    jTools.alert.error('form', response.message);
+                }
+            })
+            .error(function () {
+                jTools.alert.error('form');
+            });
     }
 
     /**
@@ -96,7 +146,7 @@ $(function () {
             },
             success: function (questionResponse) {
                 if (questionResponse.success) {
-                    questionMap[currentQuestion] = questionResponse.data.id;
+                    questions.push(questionResponse.data.id);
                     questionChanged = false;
                     $('#id-question').val(questionResponse.data.id);
                     $('#version-question').val(questionResponse.data.version);
@@ -151,6 +201,10 @@ $(function () {
 
     majNumber();
 
+    if ($('#id-quiz').val() && questions.length === 0) {
+        getQuestions();
+    }
+
     //Gestion modification formulaire
     quizForm.find(':input').change(function () {
         quizChanged = true;
@@ -164,18 +218,23 @@ $(function () {
         save(quizChanged, questionChanged);
     });
 
+    //Gestion click bouton supprimer
+    $('#delete-question').click(function () {
+        ajaxDelete($('#id-question').val());
+    });
+
     //Gestion navigation
     $('#previous-question').click(function () {
         currentQuestion -= 1;
-        ajaxQuestion(questionMap[currentQuestion]);
+        ajaxQuestion(questions[currentQuestion]);
         majNumber();
         navChange();
     });
 
     $('#next-question').click(function () {
         currentQuestion += 1;
-        if (questionMap[currentQuestion] !== undefined) {
-            ajaxQuestion(questionMap[currentQuestion]);
+        if (questions[currentQuestion] !== undefined) {
+            ajaxQuestion(questions[currentQuestion]);
         } else {
             clearQuestionForm();
         }
@@ -213,6 +272,10 @@ $(function () {
             },
             secondAnswer: {
                 required: true
+            },
+            time: {
+                required: true,
+                digits: true
             }
         }
     });
