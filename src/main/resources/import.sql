@@ -4,7 +4,7 @@ INSERT INTO public.users (id, version, birthdate, email, firstname, lastaccess, 
 INSERT INTO public.users (id, version, birthdate, email, firstname, lastaccess, lastname, login, password, phone, role) VALUES (4, 0, '2013-04-30 23:51:09', 'natacha.berges@sopragroup.com', 'Natacha', '1986-05-08 00:00:00', 'BERGES', 'nberges', 'lolilol', '51333', 'ROLE_USER');
 INSERT INTO public.users (id, version, birthdate, email, firstname, lastaccess, lastname, login, password, phone, role) VALUES (5, 0, '2013-04-30 23:51:09', 'arnaud.pradelles@sopragroup.com', 'Arnaud', '1978-01-01 00:00:00', 'PRADELLES', 'Piwi', 'lolilol', '51345', 'ROLE_USER');
 
-INSERT INTO public.quiz (id, version, createdate, execnumber, title, creator_id) VALUES (1, 0, '2013-05-10 16:19:11', null, 'Java basics', 1);
+INSERT INTO public.quiz (id, version, createdate, execnumber, title, creator_id) VALUES (1, 0, '2013-05-10 16:19:11', 0, 'Java basics', 1);
 
 INSERT INTO public.question (id, version, correctanswer, explanation, firstanswer, fourthanswer, label, number, secondanswer, thirdanswer, time, quiz_id) VALUES (1, 0, 3, 'Java n''est pas fait pour faire de la programmation fonctionnelle contrairement à Lisp, Haskell, Scala, etc...', 'interprété', 'orienté objet', 'Java n''est pas un langage :', 0, 'compilé', 'fonctionnel', 20, 1);
 INSERT INTO public.question (id, version, correctanswer, explanation, firstanswer, fourthanswer, label, number, secondanswer, thirdanswer, time, quiz_id) VALUES (2, 0, 4, 'Si aucun constructeur n''est défini la JVM en crééra un par défaut. Ensuite, on peut en créer autant que l''on souhaite', '1', '0 ou plusieurs', 'Combien de constructeur peut-on définir pour une classe ?', 1, '0 ou 1', '1 ou plusieurs', 30, 1);

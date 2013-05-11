@@ -19,17 +19,19 @@ public class Quiz extends GenericDomain {
     @Column(unique = true, nullable = false)
     private String title;
 
+
+    @Column(nullable = false)
+    private Date createDate;
+
+    @Column(nullable = false)
+    private Integer execNumber = new Integer(0);
+
     @JsonIgnore
     @OneToMany(mappedBy = "quiz")
     private Set<Question> questions = new HashSet<>();
 
     @ManyToOne
     private User creator;
-
-    @Column(nullable = false)
-    private Date createDate;
-
-    private Integer execNumber;
 
     @JsonIgnore
     @OneToMany(mappedBy = "quizUserId.quiz")
@@ -41,22 +43,6 @@ public class Quiz extends GenericDomain {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public Set<Question> getQuestions() {
-        return questions;
-    }
-
-    public void setQuestions(Set<Question> questions) {
-        this.questions = questions;
-    }
-
-    public User getCreator() {
-        return creator;
-    }
-
-    public void setCreator(User creator) {
-        this.creator = creator;
     }
 
     public Date getCreateDate() {
@@ -73,6 +59,22 @@ public class Quiz extends GenericDomain {
 
     public void setExecNumber(Integer execNumber) {
         this.execNumber = execNumber;
+    }
+
+    public Set<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(Set<Question> questions) {
+        this.questions = questions;
+    }
+
+    public User getCreator() {
+        return creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
     }
 
     public Set<QuizUser> getQuizUsers() {

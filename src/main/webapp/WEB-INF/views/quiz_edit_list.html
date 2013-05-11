@@ -31,7 +31,9 @@
             aoColumns: [
                 {mData: "title"},
                 {mData: "creator.login"},
-                {mData: "createDate"},
+                {mData: "createDate", sType: "date-euro", mRender: function (data) {
+                    return moment(new Date(data)).format("DD/MM/YYYY HH:mm:ss");
+                }},
                 {mData: "execNumber"},
                 jTools.table.action()
             ]

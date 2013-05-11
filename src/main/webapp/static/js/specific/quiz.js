@@ -2,7 +2,7 @@ $(function () {
     "use strict";
 
     var questions = [], currentQuestion = 0, quizChanged = false, questionChanged = false, quizForm = $('#quiz-form'),
-        questionForm = $('#question-form');
+        questionForm = $('#question-form'), idQuiz = $('#id-quiz');
 
     /**                                                                                                                  jtools
      * Récupère une question avec son id et l'affiche
@@ -22,6 +22,19 @@ $(function () {
                             }
                         } else {
                             $(this).val(jsonValue);
+                            if ($(this).attr('name') === 'thirdAnswer') {
+                                if ($.trim($(this).val()) !== '') {
+                                    $("#third-radio").removeClass('hide');
+                                } else {
+                                    $("#third-radio").addClass('hide');
+                                }
+                            } else if ($(this).attr('name') === 'fourthAnswer') {
+                                if ($.trim($(this).val()) !== '') {
+                                    $("#fourth-radio").removeClass('hide');
+                                } else {
+                                    $("#fourth-radio").addClass('hide');
+                                }
+                            }
                         }
                     }
                 });
@@ -42,6 +55,12 @@ $(function () {
                 }
             } else {
                 $(this).val('');
+            }
+            if (!$("#third-radio").hasClass('hide')) {
+                $("#third-radio").addClass('hide');
+            }
+            if (!$("#fourth-radio").hasClass('hide')) {
+                $("#fourth-radio").addClass('hide');
             }
         });
     }
@@ -201,7 +220,7 @@ $(function () {
 
     majNumber();
 
-    if ($('#id-quiz').val() && questions.length === 0) {
+    if (idQuiz.val() && questions.length === 0) {
         getQuestions();
     }
 
@@ -211,6 +230,19 @@ $(function () {
     });
     questionForm.find(':input').change(function () {
         questionChanged = true;
+        if ($(this).attr('name') === 'thirdAnswer') {
+            if ($.trim($(this).val()) !== '') {
+                $("#third-radio").removeClass('hide');
+            } else {
+                $("#third-radio").addClass('hide');
+            }
+        } else if ($(this).attr('name') === 'fourthAnswer') {
+            if ($.trim($(this).val()) !== '') {
+                $("#fourth-radio").removeClass('hide');
+            } else {
+                $("#fourth-radio").addClass('hide');
+            }
+        }
     });
 
     //Gestion click bouton ajouter
@@ -251,7 +283,7 @@ $(function () {
                 remote: {
                     url: '/jtools/quiz/titlecontrol',
                     data: {
-                        id: $('#id-quiz').val()
+                        id: idQuiz.val()
                     }
                 }
             }
