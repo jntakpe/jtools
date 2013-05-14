@@ -59,9 +59,9 @@ public class QuizController {
         }
     }
 
-    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    @RequestMapping(value = {"/edit", "/play"}, method = RequestMethod.GET)
     public String list() {
-        return "quiz_edit_list";
+        return "quiz_list";
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
@@ -70,14 +70,26 @@ public class QuizController {
         return mv.addObject(quizService.findOne(id));
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/edit/list", method = RequestMethod.GET)
     @ResponseBody
-    public Iterable<Quiz> list(SecurityContextHolderAwareRequestWrapper request) {
+    public Iterable<Quiz> editList(SecurityContextHolderAwareRequestWrapper request) {
         if (request.isUserInRole("ROLE_ADMIN")) {
             return quizService.findAll();
         } else {
             String username = SecurityContextHolder.getContext().getAuthentication().getName();
             return quizService.findByCreator(userService.findByLogin(username));
         }
+    }
+
+    @RequestMapping(value = "/play/list", method = RequestMethod.GET)
+    @ResponseBody
+    public Iterable<Quiz> playList() {
+        return quizService.findAll();
+    }
+
+    @RequestMapping(value = "/play/{id}", method = RequestMethod.GET)
+    public ModelAndView play(@PathVariable Long id) {
+        ModelAndView mv = new ModelAndView("quiz_play");
+        return mv.addObject(quizService.findOne(id));
     }
 }

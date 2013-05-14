@@ -130,6 +130,20 @@ var jTools = {
                     return btnEdit + btnDelete;
                 }
             };
+        },
+        button: function (icon, text) {
+            "use strict";
+            return {
+                mData: "id",
+                sWidth: 80,
+                bSearchable: false,
+                bSortable: false,
+                sClass: "center",
+                mRender: function (data) {
+                    var link = window.location.pathname + "/" + data;
+                    return '<a class="btn btn-primary" href="' + link + '"><i class="' + icon + '"></i> ' + text + '</a>';
+                }
+            };
         }
     },
     popup: {

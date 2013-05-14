@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="../fragments/headFragment :: head"></head>
+<body>
+<header th:include="../fragments/menuFragment :: fullMenu"></header>
+<div class="container row">
+    <div class="offset2">
+        <input type="radio" name="answer"/>
+        <input type="radio" name="answer"/>
+        <input type="radio" name="answer"/>
+        <input type="radio" name="answer" checked="checked"/>
+    </div>
+</div>
+<footer th:include="../fragments/footerFragment :: footer">
+</footer>
+<script type="text/javascript">
+    $(function () {
+        $('input').iCheck({
+            radioClass: 'iradio_square-orange'
+        });
+    });
+</script>
+</body>
+</html>

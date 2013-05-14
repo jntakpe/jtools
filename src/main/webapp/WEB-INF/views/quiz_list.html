@@ -18,16 +18,17 @@
         </thead>
         <tbody>
         <tr>
-            <td colspan="3" class="dataTables_empty">Chargement des données</td>
+            <td colspan="5" class="dataTables_empty">Chargement des données</td>
         </tr>
         </tbody>
     </table>
 </div>
 <div th:include="../fragments/popupFragment :: confirmDeletePopupFragment"></div>
-<script>
+<script type="text/javascript">
     $(function () {
+        "use strict";
         $('#quiz-table').dataTable({
-            sAjaxSource: "list",
+            sAjaxSource: window.location.pathname + "/list",
             aoColumns: [
                 {mData: "title"},
                 {mData: "creator.login"},
@@ -35,10 +36,19 @@
                     return moment(new Date(data)).format("DD/MM/YYYY HH:mm:ss");
                 }},
                 {mData: "execNumber"},
-                jTools.table.action()
+                actions()
             ]
         });
     })
+
+    function actions() {
+        "use strict";
+        if (window.location.pathname.toString().indexOf("/play") !== -1) {
+            return jTools.table.button('icon-gamepad', 'Jouer');
+        } else {
+            return jTools.table.action();
+        }
+    }
 </script>
 </body>
 </html>
