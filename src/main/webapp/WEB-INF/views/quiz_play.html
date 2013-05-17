@@ -4,19 +4,77 @@
 <body>
 <header th:include="../fragments/menuFragment :: fullMenu"></header>
 <div class="container row">
-    <div class="offset2">
-        <input type="radio" name="answer"/>
-        <input type="radio" name="answer"/>
-        <input type="radio" name="answer"/>
-        <input type="radio" name="answer" checked="checked"/>
+    <h1 id="quiz-title" th:text="${quiz.title}"></h1>
+
+    <div class="offset2 span8">
+
+        <div class="progress progress-striped active">
+            <div id="quiz-progress" class="bar"></div>
+        </div>
+
+        <div id="quiz-list">
+            <div class="row">
+                <div class="span5 noclear">
+                    <h2>Question n°<span id="question-number"></span>/<span id="question-total"></span></h2>
+
+                    <p id="question-label">
+                        TOTOTO PART AU SKI fghfghfgh
+                        et oauis il est bien parti
+                        fghhhhhhhhhhhhhhh hhhhhhhhhhhggggggggg gggggggggggggggggggggggggfgh
+                    </p>
+                </div>
+                <div id="timer" class="span3"></div>
+            </div>
+            <div id="quiz-core" class="row">
+                <div class="span6">
+                    <ul>
+                        <li>
+                            <input id="radio-1" name="quiz-radio" tabindex="1" type="radio" checked="checked"/>
+                            <label id="firstAnswer" for="radio-1">sdf</label>
+                        </li>
+                        <li>
+                            <input id="radio-2" name="quiz-radio" tabindex="2" type="radio"/>
+                            <label id="secondAnswer" for="radio-2">sdffffffffffffffffffffffffffff</label>
+                        </li>
+                        <li>
+                            <input id="radio-3" name="quiz-radio" tabindex="3" type="radio"/>
+                            <label id="thirdAnswer" for="radio-3">sdf</label>
+                        </li>
+                        <li>
+                            <input id="radio-4" name="quiz-radio" tabindex="4" type="radio"/>
+                            <label id="fourthAnswer" for="radio-4">ffssdfdsfsdf</label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div id="quiz-action" class="offset3">
+                <button id="valid-question" class="btn btn-primary"> Valider
+                    <i class="icon-circle-arrow-right"></i>
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 <footer th:include="../fragments/footerFragment :: footer">
 </footer>
 <script type="text/javascript">
     $(function () {
+        'use strict';
+        var countdownDuration;
+
         $('input').iCheck({
-            radioClass: 'iradio_square-orange'
+            radioClass: 'iradio_square-orange',
+            increaseArea: '20%'
+        });
+
+        $('#timer').pietimer({
+            timerSeconds: 10,
+            color: '#e36b23',
+            fill: false,
+            showPercentage: true,
+            callback: function () {
+
+            }
         });
     });
 </script>

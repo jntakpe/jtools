@@ -8,6 +8,10 @@ fieldset {
     margin-top: 20px;
 }
 
+.noclear {
+    clear: none;
+}
+
 /*Menu*/
 
 .navbar-inner {
