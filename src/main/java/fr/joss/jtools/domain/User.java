@@ -50,6 +50,10 @@ public class User extends GenericDomain {
     @OneToMany(mappedBy = "quizUserId.user")
     private Set<QuizUser> quizUsers = new HashSet<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "questionUserId.user")
+    private Set<QuestionUser> questionUsers = new HashSet<>();
+
     public String getLogin() {
         return login;
     }
@@ -128,6 +132,14 @@ public class User extends GenericDomain {
 
     public void setQuizUsers(Set<QuizUser> quizUsers) {
         this.quizUsers = quizUsers;
+    }
+
+    public Set<QuestionUser> getQuestionUsers() {
+        return questionUsers;
+    }
+
+    public void setQuestionUsers(Set<QuestionUser> questionUsers) {
+        this.questionUsers = questionUsers;
     }
 
     @Override

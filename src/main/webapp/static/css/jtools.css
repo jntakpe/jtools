@@ -44,10 +44,6 @@
     left: 0;
 }
 
-#timer {
-    width: 150px;
-}
-
 #question-label {
     font-family: Georgia;
     font-size: 22px;
@@ -59,9 +55,11 @@
 }
 
 #quiz-action {
-    margin-top: 30px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 #quiz-core {
     margin-top: 40px;
 }
+

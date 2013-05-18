@@ -56,4 +56,11 @@ public class QuizServiceImpl extends GenericServiceImpl<Quiz> implements QuizSer
         return quizRepository.findByCreator(creator);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Quiz findOne(Long id) {
+        Quiz quiz = super.findOne(id);
+        quiz.setTotalQuestion(quiz.getQuestions().size());
+        return quiz;
+    }
 }

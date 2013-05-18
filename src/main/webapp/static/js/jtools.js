@@ -24,8 +24,8 @@ var jTools = {
          */
         remove: function (params) {
             "use strict";
-            $('#confirmDeletePopup').modal('hide');
             var dataTable = $('table[id$=-table]').dataTable(), path = window.location.pathname, deleteUrl;
+            $('#confirmDeletePopup').modal('hide');
             deleteUrl = path.match(/\/$/) ? path + params.data.id : path + "/" + params.data.id;
             $.ajax({
                 type: 'DELETE',
@@ -60,11 +60,11 @@ var jTools = {
          */
         success: function (suffix, message) {
             "use strict";
+            var alertDiv = $("#alert-" + suffix), alertIcon = alertDiv.children('i');
             if (!message) {
                 message = "Opération effectuée avec succès";
             }
             clearTimeout(jTools.alert.currentTimeout);
-            var alertDiv = $("#alert-" + suffix), alertIcon = alertDiv.children('i');
             alertDiv.children('span').text(message);
             if (alertDiv.hasClass('alert-error')) {
                 alertDiv.removeClass('alert-error');
@@ -90,11 +90,11 @@ var jTools = {
          */
         error: function (suffix, message) {
             "use strict";
+            var alertDiv = $("#alert-" + suffix), alertIcon = alertDiv.children('i');
             if (!message) {
                 message = "Une erreur inconnue est survenue";
             }
             clearTimeout(jTools.alert.currentTimeout);
-            var alertDiv = $("#alert-" + suffix), alertIcon = alertDiv.children('i');
             alertDiv.children('span').text(message);
             if (alertDiv.hasClass('alert-success')) {
                 alertDiv.removeClass('alert-success');

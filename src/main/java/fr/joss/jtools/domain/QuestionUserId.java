@@ -6,18 +6,18 @@ import javax.persistence.ManyToOne;
 import java.io.Serializable;
 
 /**
- * Clé composite de la table QuizUser
+ * Clé composite de la table QuestionUser
  *
  * @author jntakpe
  */
 @Embeddable
-public class QuizUserId implements Serializable {
+public class QuestionUserId implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Quiz quiz;
+    private Question question;
 
     public User getUser() {
         return user;
@@ -27,22 +27,22 @@ public class QuizUserId implements Serializable {
         this.user = user;
     }
 
-    public Quiz getQuiz() {
-        return quiz;
+    public Question getQuestion() {
+        return question;
     }
 
-    public void setQuiz(Quiz quiz) {
-        this.quiz = quiz;
+    public void setQuestion(Question question) {
+        this.question = question;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof QuizUserId)) return false;
+        if (!(o instanceof QuestionUserId)) return false;
 
-        QuizUserId that = (QuizUserId) o;
+        QuestionUserId that = (QuestionUserId) o;
 
-        if (!quiz.equals(that.quiz)) return false;
+        if (!question.equals(that.question)) return false;
         if (!user.equals(that.user)) return false;
 
         return true;
@@ -51,15 +51,15 @@ public class QuizUserId implements Serializable {
     @Override
     public int hashCode() {
         int result = user.hashCode();
-        result = 31 * result + quiz.hashCode();
+        result = 31 * result + question.hashCode();
         return result;
     }
 
     @Override
     public String toString() {
-        return "QuizUserId{" +
+        return "QuestionUserId{" +
                 "user=" + user +
-                ", quiz=" + quiz +
+                ", question=" + question +
                 '}';
     }
 }

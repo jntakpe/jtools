@@ -9,9 +9,7 @@ $(function () {
      * @param id identifiant de la question
      */
     function ajaxQuestion(id) {
-        $.ajax({
-            url: '/jtools/question/' + id
-        })
+        $.ajax('/jtools/question/' + id)
             .done(function (response) {
                 questionForm.find(':input').each(function () {
                     var name = $(this).attr('name'), jsonValue = response[name];
@@ -111,9 +109,7 @@ $(function () {
      * Dans le cas d'une mise à jour de quiz récupère la liste des ids de questions
      */
     function getQuestions() {
-        $.ajax({
-            url: '/jtools/question/' + $('#id-quiz').val() + '/list'
-        })
+        $.ajax('/jtools/question/' + $('#id-quiz').val() + '/list')
             .done(function (response) {
                 questions = response;
                 ajaxQuestion(questions[0]);

@@ -3,6 +3,8 @@ package fr.joss.jtools.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Entité représentant la question d'un quiz
@@ -36,11 +38,15 @@ public class Question extends GenericDomain {
     private String explanation;
 
     @Column(nullable = false)
-    private Integer time;
+    private Integer duration;
 
     @JsonIgnore
     @ManyToOne
     private Quiz quiz;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "questionUserId.question")
+    private Set<QuestionUser> questionUser = new HashSet<>();
 
     public Integer getNumber() {
         return number;
@@ -106,12 +112,12 @@ public class Question extends GenericDomain {
         this.explanation = explanation;
     }
 
-    public Integer getTime() {
-        return time;
+    public Integer getDuration() {
+        return duration;
     }
 
-    public void setTime(Integer time) {
-        this.time = time;
+    public void setDuration(Integer duration) {
+        this.duration = duration;
     }
 
     public Quiz getQuiz() {
@@ -120,6 +126,14 @@ public class Question extends GenericDomain {
 
     public void setQuiz(Quiz quiz) {
         this.quiz = quiz;
+    }
+
+    public Set<QuestionUser> getQuestionUser() {
+        return questionUser;
+    }
+
+    public void setQuestionUser(Set<QuestionUser> questionUser) {
+        this.questionUser = questionUser;
     }
 
     @Override

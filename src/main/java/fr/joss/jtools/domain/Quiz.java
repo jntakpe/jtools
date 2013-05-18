@@ -24,10 +24,11 @@ public class Quiz extends GenericDomain {
     private Date createDate;
 
     @Column(nullable = false)
-    private Integer execNumber = new Integer(0);
+    private Integer execNumber = 0;
 
     @JsonIgnore
     @OneToMany(mappedBy = "quiz")
+    @OrderBy("number ASC")
     private Set<Question> questions = new HashSet<>();
 
     @ManyToOne
@@ -36,6 +37,9 @@ public class Quiz extends GenericDomain {
     @JsonIgnore
     @OneToMany(mappedBy = "quizUserId.quiz")
     private Set<QuizUser> quizUsers = new HashSet<>();
+
+    @Transient
+    private Integer totalQuestion;
 
     public String getTitle() {
         return title;
@@ -83,6 +87,14 @@ public class Quiz extends GenericDomain {
 
     public void setQuizUsers(Set<QuizUser> quizUsers) {
         this.quizUsers = quizUsers;
+    }
+
+    public Integer getTotalQuestion() {
+        return totalQuestion;
+    }
+
+    public void setTotalQuestion(Integer totalQuestion) {
+        this.totalQuestion = totalQuestion;
     }
 
     @Override

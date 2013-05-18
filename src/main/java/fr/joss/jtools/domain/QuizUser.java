@@ -3,24 +3,24 @@ package fr.joss.jtools.domain;
 import javax.persistence.*;
 
 /**
- * Entité représentant l'éxécution d'un quiz
+ * Entité représentant l'éxécution d'un quiz (relation entre un quiz et un utilisateur)
  *
  * @author jntakpe
  */
 @Entity
-@SequenceGenerator(name = "SG", sequenceName = "SEQ_QUIZ_USER")
+@Table(name = "quiz_user")
 @AssociationOverrides({
-        @AssociationOverride(name = "quizUserId.user", joinColumns = @JoinColumn(name = "id", updatable = false)),
-        @AssociationOverride(name = "quizUserId.quiz", joinColumns = @JoinColumn(name = "id", updatable = false))})
-public class QuizUser extends GenericDomain {
+        @AssociationOverride(name = "quizUserId.user",
+                joinColumns = @JoinColumn(referencedColumnName = "id", nullable = false, updatable = false)),
+        @AssociationOverride(name = "quizUserId.quiz",
+                joinColumns = @JoinColumn(referencedColumnName = "id", nullable = false, updatable = false))})
+public class QuizUser {
 
     @EmbeddedId
     private QuizUserId quizUserId = new QuizUserId();
 
-    private Integer result;
-
     @Column(nullable = false)
-    private Integer count;
+    private Integer result;
 
     @Transient
     public Quiz getQuiz() {
@@ -48,14 +48,6 @@ public class QuizUser extends GenericDomain {
         this.result = result;
     }
 
-    public Integer getCount() {
-        return count;
-    }
-
-    public void setCount(Integer count) {
-        this.count = count;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -63,7 +55,6 @@ public class QuizUser extends GenericDomain {
 
         QuizUser quizUser = (QuizUser) o;
 
-        if (!count.equals(quizUser.count)) return false;
         if (!quizUserId.equals(quizUser.quizUserId)) return false;
 
         return true;
@@ -71,8 +62,13 @@ public class QuizUser extends GenericDomain {
 
     @Override
     public int hashCode() {
-        int result = quizUserId.hashCode();
-        result = 31 * result + count.hashCode();
-        return result;
+        return quizUserId.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "QuizUser{" +
+                "quizUserId=" + quizUserId +
+                '}';
     }
 }

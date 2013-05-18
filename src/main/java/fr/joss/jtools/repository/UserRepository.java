@@ -12,7 +12,7 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface UserRepository extends CrudRepository<User, Long> {
 
-    @Query("select u from User u where UPPER(u.login) = UPPER(?1)")
+    @Query("SELECT u FROM User u WHERE UPPER(u.login) = UPPER(?1)")
     User findByLogin(String login);
 
     User findByEmail(String email);

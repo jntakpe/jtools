@@ -2,15 +2,17 @@ package fr.joss.jtools.web;
 
 import fr.joss.jtools.domain.Question;
 import fr.joss.jtools.service.QuestionService;
-import fr.joss.jtools.service.QuizService;
 import fr.joss.jtools.util.IdVersion;
 import fr.joss.jtools.util.ResponseMessage;
+import fr.joss.jtools.util.ResponseQuestion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Contrôleur gérant les écrans relatifs à l'entité {@link Question}
@@ -25,9 +27,6 @@ public class QuestionController {
 
     @Autowired
     private QuestionService questionService;
-
-    @Autowired
-    private QuizService quizService;
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
@@ -62,7 +61,13 @@ public class QuestionController {
 
     @RequestMapping(value = "/{id}/list", method = RequestMethod.GET)
     @ResponseBody
-    public Long[] list(@PathVariable Long id) {
-        return questionService.findByQuizOrderByNumberAsc(id);
+    public List<Long> list(@PathVariable Long id) {
+        return questionService.findSortedIds(id);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseQuestion nextQuestion(@PathVariable Long id, @RequestParam Integer answer) {
+        return questionService.validCurrentGetNext(id, answer);
     }
 }

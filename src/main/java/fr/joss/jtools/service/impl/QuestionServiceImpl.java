@@ -1,12 +1,17 @@
 package fr.joss.jtools.service.impl;
 
 import fr.joss.jtools.domain.Question;
+import fr.joss.jtools.domain.QuestionUser;
 import fr.joss.jtools.domain.Quiz;
 import fr.joss.jtools.repository.QuestionRepository;
+import fr.joss.jtools.repository.QuestionUserRepository;
 import fr.joss.jtools.service.QuestionService;
 import fr.joss.jtools.service.QuizService;
+import fr.joss.jtools.service.UserService;
+import fr.joss.jtools.util.ResponseQuestion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +30,13 @@ public class QuestionServiceImpl extends GenericServiceImpl<Question> implements
     private QuestionRepository questionRepository;
 
     @Autowired
+    private QuestionUserRepository questionUserRepository;
+
+    @Autowired
     private QuizService quizService;
+
+    @Autowired
+    protected UserService userService;
 
     @Override
     protected CrudRepository<Question, Long> getRepository() {
@@ -51,13 +62,23 @@ public class QuestionServiceImpl extends GenericServiceImpl<Question> implements
 
     @Override
     @Transactional(readOnly = true)
-    public Long[] findByQuizOrderByNumberAsc(Long quizId) {
-        List<Question> questions = questionRepository.findByQuizOrderByNumberAsc(quizService.findOne(quizId));
-        int size = questions.size();
-        Long[] ids = new Long[size];
-        for (int i = 0; i < size; i++) {
-            ids[i] = questions.get(i).getId();
-        }
-        return ids;
+    public List<Long> findSortedIds(Long quizId) {
+        return questionRepository.findSortedIds(quizService.findOne(quizId));
+    }
+
+    @Override
+    @Transactional
+    public ResponseQuestion validCurrentGetNext(Long id, Integer answer) {
+        Question currentQuestion = findOne(id);
+        QuestionUser questionUser = new QuestionUser();
+        questionUser.setQuestion(currentQuestion);
+        questionUser.setUser(userService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName()));
+        questionUser.setAnswer(answer);
+        questionUserRepository.save(questionUser);
+        Quiz quiz = currentQuestion.getQuiz();
+        Question nextQuestion = questionRepository.findByQuizAndNumber(quiz, currentQuestion.getNumber() + 1);
+        ResponseQuestion response = new ResponseQuestion(
+                nextQuestion, answer.equals(currentQuestion.getCorrectAnswer()), currentQuestion.getExplanation());
+        return response;
     }
 }
