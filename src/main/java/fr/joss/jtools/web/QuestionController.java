@@ -68,6 +68,13 @@ public class QuestionController {
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     @ResponseBody
     public ResponseQuestion nextQuestion(@PathVariable Long id, @RequestParam Integer answer) {
-        return questionService.validCurrentGetNext(id, answer);
+        ResponseQuestion responseQuestion = questionService.validCurrentGetNext(id, answer);
+        Question question = responseQuestion.getQuestion();
+        if (question != null) {
+            question.setExplanation("Don't cheat");
+            question.setCorrectAnswer(51);
+            responseQuestion.setQuestion(question);
+        }
+        return responseQuestion;
     }
 }

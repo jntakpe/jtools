@@ -1,7 +1,123 @@
+/**
+ * Initialisation du timer
+ * @param duration duréé d'un cycle
+ */
+function initTimer(duration) {
+    "use strict";
+    $('#timer').pietimer({
+        timerSeconds: duration,
+        color: '#e36b23',
+        fill: false,
+        showPercentage: true,
+        callback: function () {
+            $('#valid-question').trigger('click');
+        }
+    });
+}
+/**
+ * Affichage de l'explication en cas de bonne réponse
+ * @param explanation explication
+ */
+function displaySuccess(explanation) {
+    "use strict";
+    var alertDiv = $("#alert-explanation"), alertIcon = $('#explanation-icon'),
+        alertMessage = $('#explanation-message');
+    clearTimeout(jTools.alert.currentTimeout);
+    alertMessage.text('BONNE RÉPONSE. ' + explanation);
+    if (alertDiv.hasClass('alert-error')) {
+        alertDiv.removeClass('alert-error');
+    }
+    if (!alertDiv.hasClass('alert-success')) {
+        alertDiv.addClass('alert-success');
+    }
+    if (alertIcon.hasClass('icon-warning-sign')) {
+        alertIcon.removeClass('icon-warning-sign');
+    }
+    if (!alertIcon.hasClass('icon-ok')) {
+        alertIcon.addClass('icon-ok');
+    }
+    alertDiv.addClass('in');
+}
+
+/**
+ * Affiche de l'explication en cas de mauvaise réponse
+ * @param explanation explication
+ */
+function displayError(explanation) {
+    "use strict";
+    var alertDiv = $("#alert-explanation"), alertIcon = $('#explanation-icon'),
+        alertMessage = $('#explanation-message');
+    alertMessage.text('MAUVAISE RÉPONSE. ' + explanation);
+    if (alertDiv.hasClass('alert-success')) {
+        alertDiv.removeClass('alert-success');
+    }
+    if (!alertDiv.hasClass('alert-error')) {
+        alertDiv.addClass('alert-error');
+    }
+    if (alertIcon.hasClass('icon-ok')) {
+        alertIcon.removeClass('icon-ok');
+    }
+    if (!alertIcon.hasClass('icon-warning-sign')) {
+        alertIcon.addClass('icon-warning-sign');
+    }
+    alertDiv.addClass('in');
+}
+
+/**
+ * Update de la progress bar
+ */
+function updateProgress() {
+    "use strict";
+    //Gestion progress bar
+    $('#quiz-progress').css('width', function () {
+        var current = $('#question-number').text(), total = $('#question-total').val();
+        return ((current / total) * 100).toString() + "%";
+    });
+}
+
+/**
+ * Affichage de la question suivante
+ * @param event événement
+ */
+function nextQuestion(event) {
+    "use strict";
+    var question = event.data.question;
+    if (question === null) {
+        window.location.pathname = "/jtools/quiz/result/" + $('#quiz-id').val();
+    } else {
+        $('#question-id').val(question.id);
+        $('#question-number').text(question.number + 1);
+        $('#question-label').text(question.label);
+        $('#firstAnswer').text(question.firstAnswer);
+        $('#secondAnswer').text(question.secondAnswer);
+        if (question.thirdAnswer) {
+            $('#thirdAnswer').text(question.thirdAnswer);
+            if ($('#third-li').not(':visible')) {
+                $('#third-li').show();
+            }
+        } else {
+            $('#third-li').hide();
+        }
+        if (question.fourthAnswer) {
+            $('#fourthAnswer').text(question.fourthAnswer);
+            if ($('#fourth-li').not(':visible')) {
+                $('#fourth-li').show();
+            }
+        } else {
+            $('#fourth-li').hide();
+        }
+        $('#firstAnswer').trigger('click');
+        initTimer(question.duration);
+        updateProgress();
+        $('#timer').pietimer('start');
+        $('#valid-question').show();
+        $('#alert-explanation').removeClass('in');
+    }
+
+}
+
 $(function () {
     'use strict';
-
-    var countdownDuration = $('#question-duration').val() || 30;
 
     //Radio
     $('input').iCheck({
@@ -10,28 +126,17 @@ $(function () {
     });
 
     //Timer
-    $('#timer').pietimer({
-        timerSeconds: countdownDuration,
-        color: '#e36b23',
-        fill: false,
-        showPercentage: true,
-        callback: function () {
-            $('#valid-question').trigger('click');
-        }
-    });
+    initTimer($('#question-duration').val() || 30);
 
-    //Gestion progress bar
-    $('#quiz-progress').css('width', function () {
-        var current = $('#question-number').text(), total = $('#question-total').val();
-        return ((current / total) * 100).toString() + "%";
-    });
-
-    $('#alert-explanation').alert();
+    //Progress bar
+    updateProgress();
 
     //Click validation question
     $('#valid-question').click(function () {
-        var answer, quizId, questionId;
-        quizId = $('#quiz-id').val();
+        $('#timer').pietimer('reset');
+        $(this).hide();
+        var answer, questionId;
+        $('#quiz-id').val();
         questionId = $('#question-id').val();
         answer = $('#quiz-core').find('input[type="radio"]:checked').val();
         $.ajax({
@@ -42,10 +147,17 @@ $(function () {
             }
         })
             .done(function (response) {
-                alert(response.explanation);
+                if (response.correctAnswer) {
+                    displaySuccess(response.explanation);
+                } else {
+                    displayError(response.explanation);
+                }
+                $('#next-explanation').unbind('click').bind('click', {question: response.question}, nextQuestion);
             }).error(function () {
                 jTools.alert.error('form');
             });
     });
 });
+
+
 

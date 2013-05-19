@@ -9,11 +9,11 @@ import fr.joss.jtools.domain.Question;
  */
 public class ResponseQuestion {
 
-    private final Question question;
-
     private final boolean correctAnswer;
 
     private final String explanation;
+
+    private Question question;
 
     public ResponseQuestion(Question question, boolean correctAnswer, String explanation) {
         this.question = question;
@@ -23,6 +23,10 @@ public class ResponseQuestion {
 
     public Question getQuestion() {
         return question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
     }
 
     public boolean isCorrectAnswer() {

@@ -1,8 +1,9 @@
 package fr.joss.jtools.service.impl;
 
-import fr.joss.jtools.domain.Quiz;
-import fr.joss.jtools.domain.User;
+import fr.joss.jtools.domain.*;
+import fr.joss.jtools.repository.QuestionUserRepository;
 import fr.joss.jtools.repository.QuizRepository;
+import fr.joss.jtools.repository.QuizUserRepository;
 import fr.joss.jtools.service.QuizService;
 import fr.joss.jtools.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Implémentation des services associés à l'entité {@link Quiz}
@@ -28,6 +30,12 @@ public class QuizServiceImpl extends GenericServiceImpl<Quiz> implements QuizSer
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private QuestionUserRepository questionUserRepository;
+
+    @Autowired
+    private QuizUserRepository quizUserRepository;
 
     @Override
     protected CrudRepository<Quiz, Long> getRepository() {
@@ -62,5 +70,38 @@ public class QuizServiceImpl extends GenericServiceImpl<Quiz> implements QuizSer
         Quiz quiz = super.findOne(id);
         quiz.setTotalQuestion(quiz.getQuestions().size());
         return quiz;
+    }
+
+    @Override
+    @Transactional
+    public QuizUser saveResult(Long quizId) {
+        Quiz quiz = findOne(quizId);
+        User user = userService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+        Set<Question> questions = quiz.getQuestions();
+        int nbCorrectAnswer = 0;
+        for (Question question : questions) {
+            QuestionUserId questionUserId = new QuestionUserId();
+            questionUserId.setQuestion(question);
+            questionUserId.setUser(user);
+            QuestionUser questionUser = questionUserRepository.findOne(questionUserId);
+            if (questionUser.getAnswer().equals(question.getCorrectAnswer()))
+                nbCorrectAnswer++;
+        }
+        QuizUser quizUser = new QuizUser();
+        quizUser.setUser(user);
+        quizUser.setQuiz(quiz);
+        quizUser.setResult(nbCorrectAnswer * 100 / questions.size());
+        return quizUserRepository.save(quizUser);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Integer averageQuizResult(Quiz quiz) {
+        List<Integer> results = quizUserRepository.getAllQuizResult(quiz);
+        int sum = 0;
+        for (Integer result : results) {
+            sum += result;
+        }
+        return sum / results.size();
     }
 }

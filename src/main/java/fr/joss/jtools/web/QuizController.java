@@ -1,6 +1,7 @@
 package fr.joss.jtools.web;
 
 import fr.joss.jtools.domain.Quiz;
+import fr.joss.jtools.domain.QuizUser;
 import fr.joss.jtools.service.QuizService;
 import fr.joss.jtools.service.UserService;
 import fr.joss.jtools.util.IdVersion;
@@ -91,5 +92,14 @@ public class QuizController {
     public ModelAndView play(@PathVariable Long id) {
         ModelAndView mv = new ModelAndView("quiz_play");
         return mv.addObject(quizService.findOne(id));
+    }
+
+    @RequestMapping(value = "/result/{id}", method = RequestMethod.GET)
+    public ModelAndView displayResult(@PathVariable Long id) {
+        QuizUser quizUser = quizService.saveResult(id);
+        ModelAndView mv = new ModelAndView("quiz_result");
+        mv.addObject("quizTitle", quizUser.getQuiz().getTitle());
+        mv.addObject("quizResult", quizUser.getResult());
+        return mv.addObject("mean", quizService.averageQuizResult(quizUser.getQuiz()));
     }
 }

@@ -72,11 +72,11 @@ var jTools = {
             if (!alertDiv.hasClass('alert-success')) {
                 alertDiv.addClass('alert-success');
             }
-            if (alertIcon.hasClass('icon-warning-sign-large')) {
-                alertIcon.removeClass('icon-warning-sign-large');
+            if (alertIcon.hasClass('icon-warning-sign')) {
+                alertIcon.removeClass('icon-warning-sign');
             }
-            if (!alertIcon.hasClass('icon-ok-large')) {
-                alertIcon.addClass('icon-ok-large');
+            if (!alertIcon.hasClass('icon-ok')) {
+                alertIcon.addClass('icon-ok');
             }
             alertDiv.addClass('in');
             jTools.alert.currentTimeout = window.setTimeout(function () {
@@ -102,11 +102,11 @@ var jTools = {
             if (!alertDiv.hasClass('alert-error')) {
                 alertDiv.addClass('alert-error');
             }
-            if (alertIcon.hasClass('icon-ok-large')) {
-                alertIcon.removeClass('icon-ok-large');
+            if (alertIcon.hasClass('icon-ok')) {
+                alertIcon.removeClass('icon-ok');
             }
-            if (!alertIcon.hasClass('icon-warning-sign-large')) {
-                alertIcon.addClass('icon-warning-sign-large');
+            if (!alertIcon.hasClass('icon-warning-sign')) {
+                alertIcon.addClass('icon-warning-sign');
             }
             alertDiv.addClass('in');
         }
@@ -168,9 +168,9 @@ $(function () {
     'use strict';
 
     //Fermeture automatique des alertes
-    if ($('.alert').is(':visible')) {
+    if ($('#alert-form, #alert-list').is(':visible') && $('#alert-form, #alert-list').hasClass('success')) {
         setTimeout(function () {
-            $('.alert').removeClass('in');
+            $('#alert-form, #alert-list').removeClass('in');
             clearTimeout(jTools.alert.currentTimeout);
         }, jTools.alert.defaultTimeout);
     }

@@ -42,11 +42,11 @@
                         <input id="radio-2" name="quiz-radio" tabindex="2" type="radio" value="2"/>
                         <label id="secondAnswer" for="radio-2" th:text="${quiz.questions[0].secondAnswer}"></label>
                     </li>
-                    <li>
+                    <li id="third-li">
                         <input id="radio-3" name="quiz-radio" tabindex="3" type="radio" value="3"/>
                         <label id="thirdAnswer" for="radio-3" th:text="${quiz.questions[0].thirdAnswer}"></label>
                     </li>
-                    <li>
+                    <li id="fourth-li">
                         <input id="radio-4" name="quiz-radio" tabindex="4" type="radio" value="4"/>
                         <label id="fourthAnswer" for="radio-4" th:text="${quiz.questions[0].fourthAnswer}"></label>
                     </li>
@@ -57,11 +57,12 @@
                     <i class="icon-ok"></i> Valider
                 </button>
             </div>
-            <div id="alert-explanation" class='alert'>
-                <button id="close-explanation" type="button" class="close"> Suivant
+            <div id="alert-explanation" class='alert fade'>
+                <button id="next-explanation" type="button" class="close"> Suivant
                     <i class="icon-arrow-right"></i>
                 </button>
-                <span id="alert-form-message"></span>
+                <span><i id="explanation-icon" class="icon-warning-sign"></i></span>
+                <span id="explanation-message"></span>
             </div>
         </div>
     </div>

@@ -63,3 +63,13 @@
     margin-top: 40px;
 }
 
+#quiz-results {
+    margin-top: 200px;
+    margin-bottom: 100px;
+}
+
+#quiz-results > h2 {
+    margin-bottom: 50px;
+}
+
+

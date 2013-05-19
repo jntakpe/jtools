@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="../fragments/headFragment :: head"></head>
+<body>
+<header th:include="../fragments/menuFragment :: fullMenu"></header>
+<div class="container row">
+    <div th:include="../fragments/alertFragment :: alertForm"></div>
+    <div class="container row">
+        <div id="quiz-results" class="offset2 span8">
+            <h2>Résultat du quiz '<span th:text="${quizTitle}"></span>' : <span th:text="${quizResult}"></span>%</h2>
+            <h4>Résultat moyen du quiz '<span th:text="${quizTitle}"></span>' : <span th:text="${mean}"></span>%</h4>
+        </div>
+        <div class="offset4 span8">
+            <a th:href="@{/quiz/play}" class="btn btn-primary">
+                <i class="icon-arrow-left"></i> Retour liste des quiz
+            </a>
+        </div>
+    </div>
+</div>
+<footer th:include="../fragments/footerFragment :: footer">
+</footer>
+<script th:src="@{/static/js/specific/quiz-play.js}"></script>
+</body>
+</html>
