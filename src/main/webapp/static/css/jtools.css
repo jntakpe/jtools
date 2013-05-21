@@ -24,7 +24,7 @@
 
 #quiz-list ul li {
     position: relative;
-    padding: 0 0 25px 42px;
+    padding: 12px 0 12px 42px;
     list-style-type: none;
 }
 
@@ -71,5 +71,6 @@
 #quiz-results > h2 {
     margin-bottom: 50px;
 }
+
 
 

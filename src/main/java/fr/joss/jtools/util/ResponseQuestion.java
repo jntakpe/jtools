@@ -9,16 +9,19 @@ import fr.joss.jtools.domain.Question;
  */
 public class ResponseQuestion {
 
-    private final boolean correctAnswer;
+    private final boolean goodAnswer;
+
+    private final Integer correctAnswer;
 
     private final String explanation;
 
     private Question question;
 
-    public ResponseQuestion(Question question, boolean correctAnswer, String explanation) {
+    public ResponseQuestion(Question question, Integer correctAnswer, boolean goodAnswer, String explanation) {
         this.question = question;
-        this.correctAnswer = correctAnswer;
+        this.goodAnswer = goodAnswer;
         this.explanation = explanation;
+        this.correctAnswer = correctAnswer;
     }
 
     public Question getQuestion() {
@@ -29,12 +32,15 @@ public class ResponseQuestion {
         this.question = question;
     }
 
-    public boolean isCorrectAnswer() {
-        return correctAnswer;
+    public boolean isGoodAnswer() {
+        return goodAnswer;
     }
 
     public String getExplanation() {
         return explanation;
     }
 
+    public Integer getCorrectAnswer() {
+        return correctAnswer;
+    }
 }

@@ -77,8 +77,8 @@ public class QuestionServiceImpl extends GenericServiceImpl<Question> implements
         questionUserRepository.save(questionUser);
         Quiz quiz = currentQuestion.getQuiz();
         Question nextQuestion = questionRepository.findByQuizAndNumber(quiz, currentQuestion.getNumber() + 1);
-        ResponseQuestion response = new ResponseQuestion(
-                nextQuestion, answer.equals(currentQuestion.getCorrectAnswer()), currentQuestion.getExplanation());
+        ResponseQuestion response = new ResponseQuestion(nextQuestion, currentQuestion.getCorrectAnswer(),
+                answer.equals(currentQuestion.getCorrectAnswer()), currentQuestion.getExplanation());
         return response;
     }
 }

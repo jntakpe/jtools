@@ -17,6 +17,7 @@ function initTimer(duration) {
 /**
  * Affichage de l'explication en cas de bonne réponse
  * @param explanation explication
+
  */
 function displaySuccess(explanation) {
     "use strict";
@@ -42,8 +43,9 @@ function displaySuccess(explanation) {
 /**
  * Affiche de l'explication en cas de mauvaise réponse
  * @param explanation explication
+ * @param correctAnswer index de la bonne réponse
  */
-function displayError(explanation) {
+function displayError(explanation, correctAnswer) {
     "use strict";
     var alertDiv = $("#alert-explanation"), alertIcon = $('#explanation-icon'),
         alertMessage = $('#explanation-message');
@@ -61,6 +63,7 @@ function displayError(explanation) {
         alertIcon.addClass('icon-warning-sign');
     }
     alertDiv.addClass('in');
+    $('#quiz-core').find('li').find('input[name="quiz-radio"][value="' + correctAnswer + '"]').next().trigger('click');
 }
 
 /**
@@ -147,10 +150,11 @@ $(function () {
             }
         })
             .done(function (response) {
-                if (response.correctAnswer) {
-                    displaySuccess(response.explanation);
+
+                if (response.goodAnswer) {
+                    displaySuccess(response.explanation, response.correctAnswer);
                 } else {
-                    displayError(response.explanation);
+                    displayError(response.explanation, response.correctAnswer);
                 }
                 $('#next-explanation').unbind('click').bind('click', {question: response.question}, nextQuestion);
             }).error(function () {
