@@ -131,6 +131,25 @@ var jTools = {
                 }
             };
         },
+        actionPopup: function () {
+            "use strict";
+            return {
+                mData: "id",
+                sWidth: 25,
+                bSearchable: false,
+                bSortable: false,
+                sClass: "center",
+                mRender: function (data) {
+                    var path = window.location.pathname, editUrl, btnEdit, fct, btnDelete;
+                    btnEdit = "<a href='javascript:;' class='edit-btn' onclick='jTools.popup.edit(" + data + ")'>" +
+                        "<i class='icon-edit icon-large'></i></a>";
+                    fct = "jTools.popup.confirm(" + data + ",$(this))";
+                    btnDelete = "<a href='javascript:;' onclick='" + fct + "'>" +
+                        "<i class='icon-trash icon-large pull-right'></i></a>";
+                    return btnEdit + btnDelete;
+                }
+            };
+        },
         button: function (icon, text) {
             "use strict";
             return {
@@ -157,6 +176,47 @@ var jTools = {
             $('#delete-btn').off('click', jTools.ajax.remove)
                 .on('click', {id: id, row: event.parents('tr')[0]}, jTools.ajax.remove);
             $('#confirmDeletePopup').modal();
+        },
+        /**
+         * Affiche la popup d'édition d'une entité
+         * @param id identifiant de l'entité
+         */
+        edit: function (id) {
+            var editUrl;
+            if (window.location.pathname.match(/\/$/)) {
+                editUrl = window.location.pathname + id;
+            } else {
+                editUrl = window.location.pathname + "/" + id;
+            }
+            $.ajax({
+                url: editUrl
+            }).done(
+                function (response) {
+                    var field;
+                    if (response.success) {
+                        for (field in response.data) {
+                            if (response.data.hasOwnProperty(field)) {
+                                $('input[name="' + field + '"]').val(response.data[field]);
+                            }
+                        }
+                        $('#popupTitle').text($('#editTitle').val());
+                        $('#popup').modal();
+                    } else {
+                        jTools.alert.error("list", response.message);
+                    }
+                }
+            ).error(
+                function () {
+                    jTools.alert.error("list");
+                }
+            );
+        },
+        /**
+         * Affiche la popup de création d'une nouvelle entité
+         */
+        popupNew: function () {
+            $('#popupTitle').text($('#newTitle').val());
+            $('#popup').modal('show');
         }
     }
 };

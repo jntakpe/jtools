@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
@@ -103,5 +104,28 @@ public class QuizServiceImpl extends GenericServiceImpl<Quiz> implements QuizSer
             sum += result;
         }
         return sum / results.size();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Quiz> firstTimeQuiz(User user) {
+        Iterable<Quiz> allQuiz = findAll();
+        List<Quiz> doneQuiz = quizUserRepository.getAllDoneQuiz(user);
+        List<Quiz> undoneQuiz = new ArrayList<>();
+        for (Quiz quiz : allQuiz) {
+            if (!doneQuiz.contains(quiz)) {
+                undoneQuiz.add(quiz);
+            }
+        }
+        return undoneQuiz;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean hasDone(User user, Long quizId) {
+        QuizUserId quizUserId = new QuizUserId();
+        quizUserId.setUser(user);
+        quizUserId.setQuiz(findOne(quizId));
+        return quizUserRepository.exists(quizUserId);
     }
 }

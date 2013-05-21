@@ -21,4 +21,8 @@ public interface QuizService extends GenericService<Quiz> {
     QuizUser saveResult(Long quizId);
 
     Integer averageQuizResult(Quiz quiz);
+
+    List<Quiz> firstTimeQuiz(User user);
+
+    boolean hasDone(User user, Long quizId);
 }

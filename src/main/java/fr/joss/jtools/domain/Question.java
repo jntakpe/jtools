@@ -45,7 +45,7 @@ public class Question extends GenericDomain {
     private Quiz quiz;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "questionUserId.question")
+    @OneToMany(mappedBy = "questionUserId.question", cascade = CascadeType.ALL)
     private Set<QuestionUser> questionUser = new HashSet<>();
 
     public Integer getNumber() {
@@ -158,6 +158,6 @@ public class Question extends GenericDomain {
 
     @Override
     public String toString() {
-        return number.toString() + " du quiz : " + quiz;
+        return String.valueOf(number + 1) + " du quiz : " + quiz;
     }
 }

@@ -301,7 +301,7 @@ $(function () {
             secondAnswer: {
                 required: true
             },
-            time: {
+            duration: {
                 required: true,
                 digits: true
             }

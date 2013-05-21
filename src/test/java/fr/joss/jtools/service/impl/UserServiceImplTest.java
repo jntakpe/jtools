@@ -66,7 +66,6 @@ public class UserServiceImplTest extends AbstractTransactionalJUnit4SpringContex
         assertEquals("David", managed.getFirstName());
         assertEquals("TREVISIOL", managed.getLastName());
         assertEquals("david.trevisiol@sopragroup.com", managed.getEmail());
-        assertEquals(Calendar.getInstance().getTime().toString(), managed.getLastAccess().toString());
         assertEquals("ROLE_USER", managed.getRole().name());
         User juju = userService.findByLogin("JujuPiwi");
         juju.setLogin("juju");

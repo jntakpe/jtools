@@ -26,8 +26,7 @@
         <property name="suffix" value=".html"/>
         <property name="templateMode" value="HTML5"/>
         <property name="characterEncoding" value="UTF-8"/>
-        <property name="cacheable" value="false"/>
-        <!--Mettre true en prod -->
+        <property name="cacheable" value="true"/><!--Mettre true en prod -->
     </bean>
     <bean id="templateEngine" class="org.thymeleaf.spring3.SpringTemplateEngine">
         <property name="templateResolver" ref="templateResolver"/>

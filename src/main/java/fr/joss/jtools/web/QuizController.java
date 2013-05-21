@@ -2,6 +2,7 @@ package fr.joss.jtools.web;
 
 import fr.joss.jtools.domain.Quiz;
 import fr.joss.jtools.domain.QuizUser;
+import fr.joss.jtools.domain.User;
 import fr.joss.jtools.service.QuizService;
 import fr.joss.jtools.service.UserService;
 import fr.joss.jtools.util.IdVersion;
@@ -14,6 +15,8 @@ import org.springframework.security.web.servletapi.SecurityContextHolderAwareReq
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 /**
  * Contrôleur gérant les écrans relatifs à l'entité {@link Quiz}
@@ -71,6 +74,16 @@ public class QuizController {
         return mv.addObject(quizService.findOne(id));
     }
 
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public ResponseMessage delete(@PathVariable Long id) {
+        Quiz quiz = quizService.findOne(id);
+        quizService.delete(quiz);
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        logger.info("{} a supprimé le quiz'{}'", username, quiz);
+        return ResponseMessage.getSuccessMessage("Quiz '" + quiz + "' supprimé");
+    }
+
     @RequestMapping(value = "/edit/list", method = RequestMethod.GET)
     @ResponseBody
     public Iterable<Quiz> editList(SecurityContextHolderAwareRequestWrapper request) {
@@ -84,14 +97,20 @@ public class QuizController {
 
     @RequestMapping(value = "/play/list", method = RequestMethod.GET)
     @ResponseBody
-    public Iterable<Quiz> playList() {
-        return quizService.findAll();
+    public List<Quiz> playList() {
+        User user = userService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+        return quizService.firstTimeQuiz(user);
     }
 
     @RequestMapping(value = "/play/{id}", method = RequestMethod.GET)
     public ModelAndView play(@PathVariable Long id) {
-        ModelAndView mv = new ModelAndView("quiz_play");
-        return mv.addObject(quizService.findOne(id));
+        User user = userService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+        if (!quizService.hasDone(user, id)) {
+            ModelAndView mv = new ModelAndView("quiz_play");
+            return mv.addObject(quizService.findOne(id));
+        } else {
+            return new ModelAndView("redirect:/quiz/play");
+        }
     }
 
     @RequestMapping(value = "/result/{id}", method = RequestMethod.GET)

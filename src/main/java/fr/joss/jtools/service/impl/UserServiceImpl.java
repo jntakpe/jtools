@@ -71,10 +71,12 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
         user.setFirstName(firstChar + user.getFirstName().substring(1).toLowerCase());
         user.setLastName(user.getLastName().toUpperCase());
         user.setEmail(user.getEmail().toLowerCase());
-        if (user.getId() == null)
+        if (user.getId() == null) {
             user.setLastAccess(Calendar.getInstance().getTime());
-        else if (StringUtils.isBlank(user.getPassword()))
+            sendUserInfo(user);
+        } else if (StringUtils.isBlank(user.getPassword())) {
             user.setPassword(findOne(user.getId()).getPassword());
+        }
         if (user.getRole() == null)
             user.setRole(Role.ROLE_USER);
         return super.save(user);
