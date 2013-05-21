@@ -69,7 +69,7 @@ public abstract class GenericServiceImpl<T extends GenericDomain> implements Gen
     @Override
     @Transactional
     public void delete(T t) {
-        getRepository().delete(t);
+        delete(t.getId());
     }
 
     /**

@@ -77,6 +77,7 @@ public class QuizServiceImpl extends GenericServiceImpl<Quiz> implements QuizSer
     @Transactional
     public QuizUser saveResult(Long quizId) {
         Quiz quiz = findOne(quizId);
+        quiz.setExecNumber(quiz.getExecNumber() + 1);
         User user = userService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
         Set<Question> questions = quiz.getQuestions();
         int nbCorrectAnswer = 0;

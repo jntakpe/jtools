@@ -1,9 +1,11 @@
 package fr.joss.jtools.service.impl;
 
 import fr.joss.jtools.domain.Parameter;
+import fr.joss.jtools.domain.Quiz;
 import fr.joss.jtools.domain.User;
 import fr.joss.jtools.exception.BusinessCode;
 import fr.joss.jtools.exception.BusinessException;
+import fr.joss.jtools.repository.QuizRepository;
 import fr.joss.jtools.repository.UserRepository;
 import fr.joss.jtools.service.ParameterService;
 import fr.joss.jtools.service.UserService;
@@ -40,6 +42,9 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
 
     @Autowired
     private ParameterService parameterService;
+
+    @Autowired
+    private QuizRepository quizRepository;
 
     @Override
     public CrudRepository<User, Long> getRepository() {
@@ -127,5 +132,14 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
         mailMessage.setText("Le mot de passe du compte : " + user.getLogin() + " est : " + user.getPassword());
 
         mailSender.send(mailMessage);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        for (Quiz quiz : quizRepository.findByCreator(findOne(id))) {
+            quiz.setCreator(null);
+        }
+        super.delete(id);
     }
 }
