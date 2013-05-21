@@ -9,7 +9,10 @@ $(function () {
      * @param id identifiant de la question
      */
     function ajaxQuestion(id) {
-        $.ajax('/jtools/question/' + id)
+        $.ajax({
+            url : '/jtools/question/' + id,
+            async : false
+        })
             .done(function (response) {
                 questionForm.find(':input').each(function () {
                     var name = $(this).attr('name'), jsonValue = response[name];
