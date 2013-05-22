@@ -78,7 +78,6 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
         user.setEmail(user.getEmail().toLowerCase());
         if (user.getId() == null) {
             user.setLastAccess(Calendar.getInstance().getTime());
-            sendUserInfo(user);
         } else if (StringUtils.isBlank(user.getPassword())) {
             user.setPassword(findOne(user.getId()).getPassword());
         }
@@ -110,7 +109,15 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
 
     @Override
     @Transactional(readOnly = true)
-    public void sendUserInfo(User user) {
+    public boolean sendUserInfo(String email, String login) {
+        User user = null;
+        if (!StringUtils.isBlank(email)) {
+            user = userRepository.findByEmail(email);
+        } else if (!StringUtils.isBlank(login)) {
+            user = userRepository.findByLogin(login);
+        }
+        if (user == null)
+            return false;
         Parameter smtpHost = parameterService.findByKey(MandatoryParams.SMTP_HOST.getKey());
         if (smtpHost == null || StringUtils.isBlank(smtpHost.getValue()))
             throw new BusinessException(BusinessCode.EMAIL_MISSING_PARAM, MandatoryParams.SMTP_HOST.getKey());
@@ -132,6 +139,7 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
         mailMessage.setText("Le mot de passe du compte : " + user.getLogin() + " est : " + user.getPassword());
 
         mailSender.send(mailMessage);
+        return true;
     }
 
     @Override

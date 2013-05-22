@@ -18,6 +18,6 @@ public interface UserService extends GenericService<User> {
 
     boolean isPhoneAvaillable(Long id, String phone);
 
-    void sendUserInfo(User user);
+    boolean sendUserInfo(String email, String login);
 
 }

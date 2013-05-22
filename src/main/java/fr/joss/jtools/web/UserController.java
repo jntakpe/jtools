@@ -120,6 +120,26 @@ public class UserController {
         return userService.isPhoneAvaillable(id, phone);
     }
 
+    @RequestMapping(value = "/sendpassword", method = RequestMethod.GET)
+    public String passwordForm() {
+        return "password";
+    }
+
+    @RequestMapping(value = "/sendpassword", method = RequestMethod.POST)
+    public ModelAndView sendPassword(@RequestParam(required = false) String email,
+                                     @RequestParam(required = false) String login,
+                                     RedirectAttributes redirectAttributes) {
+        if (userService.sendUserInfo(email, login)) {
+            ResponseMessage msg = ResponseMessage.getSuccessMessage("Mot de passe renvoyé.");
+            redirectAttributes.addFlashAttribute("responseMessage", msg);
+            return new ModelAndView(new RedirectView("/connexion", true));
+        } else {
+            ModelAndView mv = new ModelAndView("password");
+            ResponseMessage msg = ResponseMessage.getErrorMessage("Compte introuvable.");
+            return mv.addObject("responseMessage", msg);
+        }
+    }
+
     @InitBinder
     public void dateBinder(WebDataBinder binder) {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("dd/MM/yyyy"), true));
