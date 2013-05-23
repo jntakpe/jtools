@@ -1,11 +1,13 @@
 package fr.joss.jtools.service.impl;
 
+import com.google.common.collect.Lists;
 import fr.joss.jtools.domain.*;
 import fr.joss.jtools.repository.QuestionUserRepository;
 import fr.joss.jtools.repository.QuizRepository;
 import fr.joss.jtools.repository.QuizUserRepository;
 import fr.joss.jtools.service.QuizService;
 import fr.joss.jtools.service.UserService;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,6 +34,7 @@ public class QuizServiceImpl extends GenericServiceImpl<Quiz> implements QuizSer
     @Autowired
     private UserService userService;
 
+
     @Autowired
     private QuestionUserRepository questionUserRepository;
 
@@ -46,7 +49,7 @@ public class QuizServiceImpl extends GenericServiceImpl<Quiz> implements QuizSer
     @Override
     @Transactional(readOnly = true)
     public boolean isTitleAvailable(Long id, String title) {
-        Quiz quiz = quizRepository.findByTitle(title);
+        Quiz quiz = quizRepository.findByTitleIgnoreCase(title);
         return quiz == null || quiz.getId().equals(id);
     }
 
@@ -109,16 +112,11 @@ public class QuizServiceImpl extends GenericServiceImpl<Quiz> implements QuizSer
 
     @Override
     @Transactional(readOnly = true)
-    public List<Quiz> firstTimeQuiz(User user) {
-        Iterable<Quiz> allQuiz = findAll();
+    public List<Quiz> findUndoneQuiz(User user) {
+        List<Quiz> allQuiz = Lists.newArrayList(findAll());
         List<Quiz> doneQuiz = quizUserRepository.getAllDoneQuiz(user);
-        List<Quiz> undoneQuiz = new ArrayList<>();
-        for (Quiz quiz : allQuiz) {
-            if (!doneQuiz.contains(quiz)) {
-                undoneQuiz.add(quiz);
-            }
-        }
-        return undoneQuiz;
+        return new ArrayList<Quiz>(CollectionUtils.subtract(allQuiz, doneQuiz));
+
     }
 
     @Override

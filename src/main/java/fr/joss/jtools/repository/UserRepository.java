@@ -1,7 +1,6 @@
 package fr.joss.jtools.repository;
 
 import fr.joss.jtools.domain.User;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -12,8 +11,7 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface UserRepository extends CrudRepository<User, Long> {
 
-    @Query("SELECT u FROM User u WHERE UPPER(u.login) = UPPER(?1)")
-    User findByLogin(String login);
+    User findByLoginIgnoreCase(String login);
 
     User findByEmail(String email);
 

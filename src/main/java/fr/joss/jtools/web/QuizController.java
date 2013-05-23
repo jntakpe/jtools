@@ -16,7 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Contrôleur gérant les écrans relatifs à l'entité {@link Quiz}
@@ -97,9 +97,9 @@ public class QuizController {
 
     @RequestMapping(value = "/play/list", method = RequestMethod.GET)
     @ResponseBody
-    public List<Quiz> playList() {
+    public Collection<Quiz> playList() {
         User user = userService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
-        return quizService.firstTimeQuiz(user);
+        return quizService.findUndoneQuiz(user);
     }
 
     @RequestMapping(value = "/play/{id}", method = RequestMethod.GET)

@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface QuizRepository extends CrudRepository<Quiz, Long> {
 
-    Quiz findByTitle(String title);
+    Quiz findByTitleIgnoreCase(String title);
 
     List<Quiz> findByCreator(User creator);
 }

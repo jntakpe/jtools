@@ -66,7 +66,7 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
     @Override
     @Transactional(readOnly = true)
     public User findByLogin(String login) {
-        return userRepository.findByLogin(login);
+        return userRepository.findByLoginIgnoreCase(login);
     }
 
     @Override
@@ -114,7 +114,7 @@ public class UserServiceImpl extends GenericServiceImpl<User> implements UserSer
         if (!StringUtils.isBlank(email)) {
             user = userRepository.findByEmail(email);
         } else if (!StringUtils.isBlank(login)) {
-            user = userRepository.findByLogin(login);
+            user = userRepository.findByLoginIgnoreCase(login);
         }
         if (user == null)
             return false;

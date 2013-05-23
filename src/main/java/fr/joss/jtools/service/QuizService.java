@@ -4,6 +4,7 @@ import fr.joss.jtools.domain.Quiz;
 import fr.joss.jtools.domain.QuizUser;
 import fr.joss.jtools.domain.User;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -22,7 +23,7 @@ public interface QuizService extends GenericService<Quiz> {
 
     Integer averageQuizResult(Quiz quiz);
 
-    List<Quiz> firstTimeQuiz(User user);
+    Collection<Quiz> findUndoneQuiz(User user);
 
     boolean hasDone(User user, Long quizId);
 }
