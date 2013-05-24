@@ -55,7 +55,6 @@ public class QuestionController {
     public ResponseMessage delete(@PathVariable Long id) {
         Question question = questionService.findOne(id);
         questionService.delete(question);
-        questionService.updateNumber(question.getQuiz(), question.getNumber());
         return ResponseMessage.getSuccessMessage("Question " + question + " supprimée.");
     }
 
