@@ -59,7 +59,7 @@ public class UserServiceImplTest extends AbstractTransactionalJUnit4SpringContex
         david.setFirstName("daVId");
         david.setLastName("TreVISiol");
         david.setPassword("lolilol");
-        david.setEmail("joss@sopragroup.com");
+        david.setEmail("david.TREVISIOL@sopragroup.com");
         david.setBirthdate(new DateTime(1976, 1, 1, 1, 1).toDate());
         david.setPhone("11111");
         //Update user
@@ -67,7 +67,7 @@ public class UserServiceImplTest extends AbstractTransactionalJUnit4SpringContex
         assertEquals(managed, userService.findByLogin("dada"));
         assertEquals("David", managed.getFirstName());
         assertEquals("TREVISIOL", managed.getLastName());
-        assertEquals("joss@sopragroup.com", managed.getEmail());
+        assertEquals("david.trevisiol@sopragroup.com", managed.getEmail());
         assertEquals("ROLE_USER", managed.getRole().name());
         User juju = userService.findByLogin("JujuPiwi");
         juju.setLogin("juju");

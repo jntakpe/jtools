@@ -27,9 +27,6 @@ import java.util.List;
 public class QuestionServiceImpl extends GenericServiceImpl<Question> implements QuestionService {
 
     @Autowired
-    protected UserService userService;
-
-    @Autowired
     private QuestionRepository questionRepository;
 
     @Autowired
@@ -37,6 +34,9 @@ public class QuestionServiceImpl extends GenericServiceImpl<Question> implements
 
     @Autowired
     private QuizService quizService;
+
+    @Autowired
+    protected UserService userService;
 
     @Override
     protected CrudRepository<Question, Long> getRepository() {
@@ -51,12 +51,12 @@ public class QuestionServiceImpl extends GenericServiceImpl<Question> implements
         return super.save(question);
     }
 
+    @Override
     @Transactional
-    private void updateNumber(Question question) {
-        List<Question> questions = questionRepository.
-                findByQuizAndNumberGreaterThanOrderByNumberAsc(question.getQuiz(), question.getNumber());
-        for (Question q : questions) {
-            q.setNumber(q.getNumber() - 1);
+    public void updateNumber(Quiz quiz, Integer number) {
+        List<Question> questions = questionRepository.findByQuizAndNumberGreaterThanOrderByNumberAsc(quiz, number);
+        for (Question question : questions) {
+            question.setNumber(question.getNumber() - 1);
         }
     }
 
@@ -77,14 +77,8 @@ public class QuestionServiceImpl extends GenericServiceImpl<Question> implements
         questionUserRepository.save(questionUser);
         Quiz quiz = currentQuestion.getQuiz();
         Question nextQuestion = questionRepository.findByQuizAndNumber(quiz, currentQuestion.getNumber() + 1);
-        return new ResponseQuestion(nextQuestion, currentQuestion.getCorrectAnswer(),
+        ResponseQuestion response = new ResponseQuestion(nextQuestion, currentQuestion.getCorrectAnswer(),
                 answer.equals(currentQuestion.getCorrectAnswer()), currentQuestion.getExplanation());
-    }
-
-    @Override
-    public void delete(Long id) {
-        Question question = findOne(id);
-        super.delete(id);
-        updateNumber(question);
+        return response;
     }
 }

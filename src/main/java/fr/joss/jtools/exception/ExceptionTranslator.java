@@ -1,8 +1,10 @@
 package fr.joss.jtools.exception;
 
+import fr.joss.jtools.util.ResponseMessage;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
@@ -25,8 +27,8 @@ public class ExceptionTranslator {
      * @return L'objet normalement retourné par la méthode appelée
      * @throws Throwable rethrow les exceptions
      */
-    @Around("execution(* fr.joss.jtools.service.*.*(..))")
-    public Object catchExceptions(ProceedingJoinPoint joinPoint) throws Throwable {
+    @Around("execution(* fr.joss.jtools.service..*.*(..))")
+    public Object catchServiceExceptions(ProceedingJoinPoint joinPoint) throws Throwable {
         Object result;
         try {
             result = joinPoint.proceed();
@@ -36,6 +38,30 @@ public class ExceptionTranslator {
                 throw resolveTechnicalException(e);
             else
                 throw e;
+        }
+        return result;
+    }
+
+    /**
+     * Intercepte les exceptions lancées par les méthodes AJAX de la couche web
+     *
+     * @param joinPoint méthode initialement appelée (greffon)
+     * @return L'objet normalement retourné par la méthode appelée
+     * @throws Throwable rethrow les exceptions
+     */
+    @Around("execution(* fr.joss.jtools.web..*.*(..)) " +
+            "&& @annotation(org.springframework.web.bind.annotation.ResponseBody)")
+    public Object catchWebExceptions(ProceedingJoinPoint joinPoint) throws Throwable {
+        Object result;
+        try {
+            result = joinPoint.proceed();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            if (isReturningResponseMessage((MethodSignature) joinPoint.getSignature())) {
+                if (e.getClass().isAssignableFrom(FrameworkException.class))
+                    return ResponseMessage.getErrorMessage(e.getMessage());
+            }
+            throw e;
         }
         return result;
     }
@@ -54,4 +80,12 @@ public class ExceptionTranslator {
         return e;
     }
 
+    /**
+     * Méthode indiquant si le greffon retourne un {@link ResponseMessage}
+     *
+     * @return true si le return est bien un {@link ResponseMessage}
+     */
+    private boolean isReturningResponseMessage(MethodSignature signature) {
+        return signature.getReturnType().getClass().equals(ResponseMessage.class);
+    }
 }

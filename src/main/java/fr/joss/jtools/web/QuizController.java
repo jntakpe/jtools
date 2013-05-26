@@ -88,6 +88,8 @@ public class QuizController {
     @ResponseBody
     public Iterable<Quiz> editList(SecurityContextHolderAwareRequestWrapper request) {
         if (request.isUserInRole("ROLE_ADMIN")) {
+            if (true)
+                throw new NullPointerException();
             return quizService.findAll();
         } else {
             String username = SecurityContextHolder.getContext().getAuthentication().getName();

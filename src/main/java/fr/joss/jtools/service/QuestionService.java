@@ -16,6 +16,8 @@ public interface QuestionService extends GenericService<Question> {
 
     Question save(Question question, Long quizId);
 
+    void updateNumber(Quiz quiz, Integer number);
+
     List<Long> findSortedIds(Long quizId);
 
     ResponseQuestion validCurrentGetNext(Long id, Integer answer);
