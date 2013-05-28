@@ -10,6 +10,7 @@
     <url>http://maven.apache.org</url>
 
     <properties>
+
         <!-- Configuration -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
