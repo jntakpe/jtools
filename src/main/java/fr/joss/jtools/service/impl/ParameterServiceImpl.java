@@ -30,4 +30,5 @@ public class ParameterServiceImpl extends GenericServiceImpl<Parameter> implemen
     public Parameter findByKey(String key) {
         return parameterRepository.findByKey(key);
     }
+
 }

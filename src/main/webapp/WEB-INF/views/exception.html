@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="../fragments/headFragment :: head">
+</head>
+<body>
+<header th:include="../fragments/menuFragment :: fullMenu"></header>
+<div id="mainContainer" class="container">
+    <div th:include="../fragments/alertFragment :: alertList"></div>
+    <div class="row">
+        <h1>Une erreur s'est produite</h1>
+
+        <div class="span8 offset1">
+            <h3 th:text="${exception.message}"></h3>
+
+            <div th:each="line : ${exception.stackTrace}">
+                <p th:text="${line}"></p>
+            </div>
+        </div>
+        <br/>
+    </div>
+</div>
+<footer th:include="../fragments/footerFragment :: footer"></footer>
+</body>
+</html>

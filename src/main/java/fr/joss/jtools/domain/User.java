@@ -47,11 +47,11 @@ public class User extends GenericDomain {
     private Date lastAccess;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "quizUserId.user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "quizUserId.user", cascade = CascadeType.REMOVE)
     private Set<QuizUser> quizUsers = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "questionUserId.user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "questionUserId.user", cascade = CascadeType.REMOVE)
     private Set<QuestionUser> questionUsers = new HashSet<>();
 
     public String getLogin() {

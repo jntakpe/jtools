@@ -1,6 +1,8 @@
 package fr.joss.jtools.service.impl;
 
 import fr.joss.jtools.domain.User;
+import fr.joss.jtools.repository.QuestionUserRepository;
+import fr.joss.jtools.repository.QuizUserRepository;
 import fr.joss.jtools.service.UserService;
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -28,6 +30,12 @@ public class UserServiceImplTest extends AbstractTransactionalJUnit4SpringContex
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private QuizUserRepository quizUserRepository;
+
+    @Autowired
+    private QuestionUserRepository questionUserRepository;
 
     @Test
     public void findByLoginTest() {

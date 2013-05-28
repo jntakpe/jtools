@@ -45,7 +45,7 @@ public class Question extends GenericDomain {
     private Quiz quiz;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "questionUserId.question", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "questionUserId.question", cascade = CascadeType.REMOVE)
     private Set<QuestionUser> questionUser = new HashSet<>();
 
     public Integer getNumber() {

@@ -27,7 +27,7 @@ public class Quiz extends GenericDomain {
     private Integer execNumber = 0;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.REMOVE)
     @OrderBy("number ASC")
     private Set<Question> questions = new HashSet<>();
 
@@ -35,7 +35,7 @@ public class Quiz extends GenericDomain {
     private User creator;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "quizUserId.quiz", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "quizUserId.quiz", cascade = CascadeType.REMOVE)
     private Set<QuizUser> quizUsers = new HashSet<>();
 
     @Transient
