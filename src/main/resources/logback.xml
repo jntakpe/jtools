@@ -8,9 +8,9 @@
             <pattern>%-4relative [%thread] %-5level %logger{35} - %msg %n</pattern>
         </encoder>
     </appender>
-    <!--
-    <logger name="org.hibernate.type" level="ALL" />
-    -->
+
+    <logger name="org.hibernate.type" level="ALL"/>
+
     <root level="INFO">
         <appender-ref ref="console"/>
     </root>

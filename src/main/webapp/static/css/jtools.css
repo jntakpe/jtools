@@ -14,6 +14,14 @@
 
 /*Quiz*/
 
+#quiz-form {
+    margin-bottom: 0;
+}
+
+#question-form > fieldset {
+    margin-top: 0;
+}
+
 #quiz-progress {
     width: 0;
 }

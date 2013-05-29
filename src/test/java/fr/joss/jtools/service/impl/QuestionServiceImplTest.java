@@ -102,4 +102,18 @@ public class QuestionServiceImplTest extends AbstractTransactionalJUnit4SpringCo
         assertEquals(new Integer(4), resp.getCorrectAnswer());
         assertEquals(questionService.findOne(3L), resp.getQuestion());
     }
+
+    @Test
+    public void findLastQuestionTest() {
+        Quiz cinemaBasics = quizService.findOne(quizRepository.findByTitleIgnoreCase("Cinema basics").getId());
+        List<Question> questions = cinemaBasics.getQuestions();
+        //Security context mocking
+        SecurityContextHolder.getContext().setAuthentication(
+                new UsernamePasswordAuthenticationToken("jOSS", "lolilol"));
+        assertEquals(questions.get(1), questionService.findLastQuestion(cinemaBasics));
+        //Security context mocking
+        SecurityContextHolder.getContext().setAuthentication(
+                new UsernamePasswordAuthenticationToken("jujupiwi", "lolilol"));
+        assertEquals(questions.get(2), questionService.findLastQuestion(cinemaBasics));
+    }
 }

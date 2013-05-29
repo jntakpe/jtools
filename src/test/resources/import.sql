@@ -40,11 +40,8 @@ INSERT INTO public.question_user (answer, question_id, user_id) VALUES (4, 2, 1)
 INSERT INTO public.question_user (answer, question_id, user_id) VALUES (1, 3, 1);
 INSERT INTO public.question_user (answer, question_id, user_id) VALUES (2, 4, 1);
 INSERT INTO public.question_user (answer, question_id, user_id) VALUES (3, 9, 1);
-INSERT INTO public.question_user (answer, question_id, user_id) VALUES (2, 10, 1);
-INSERT INTO public.question_user (answer, question_id, user_id) VALUES (1, 11, 1);
 INSERT INTO public.question_user (answer, question_id, user_id) VALUES (2, 9, 2);
 INSERT INTO public.question_user (answer, question_id, user_id) VALUES (2, 10, 2);
-INSERT INTO public.question_user (answer, question_id, user_id) VALUES (1, 11, 2);
 INSERT INTO public.question_user (answer, question_id, user_id) VALUES (2, 5, 2);
 INSERT INTO public.question_user (answer, question_id, user_id) VALUES (3, 6, 2);
 INSERT INTO public.question_user (answer, question_id, user_id) VALUES (2, 7, 2);

@@ -16,9 +16,9 @@
 
         <div id="quiz-list">
             <input type="hidden" id="quiz-id" th:value="${quiz.id}"/>
-            <input type="hidden" id="question-id" th:value="${quiz.questions[0].id}"/>
+            <input type="hidden" id="question-id" th:value="${lastQuestion.id}"/>
             <input type="hidden" id="question-total" th:value="${quiz.totalQuestion}"/>
-            <input type="hidden" id="question-duration" th:value="${quiz.questions[0].duration}"/>
+            <input type="hidden" id="question-duration" th:value="${lastQuestion.duration}"/>
 
             <div class="row">
                 <div class="span6 noclear">

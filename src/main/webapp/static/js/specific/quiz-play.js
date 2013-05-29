@@ -116,11 +116,19 @@ function nextQuestion(event) {
         $('#valid-question').show();
         $('#alert-explanation').removeClass('in');
     }
-
 }
+
 
 $(function () {
     'use strict';
+
+    //Cache les radios inutiles
+    if (!$('#fourthAnswer').text()) {
+        $('#fourth-li').hide();
+    }
+    if (!$('#thirdAnswer').text()) {
+        $('#third-li').hide();
+    }
 
     //Radio
     $('input').iCheck({

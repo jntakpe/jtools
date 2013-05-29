@@ -71,8 +71,8 @@ public class QuestionController {
         ResponseQuestion responseQuestion = questionService.validCurrentGetNext(id, answer);
         Question question = responseQuestion.getQuestion();
         if (question != null) {
-            question.setExplanation("Don't cheat");
-            question.setCorrectAnswer(51);
+            question.setExplanation(null);
+            question.setCorrectAnswer(null);
             responseQuestion.setQuestion(question);
         }
         return responseQuestion;

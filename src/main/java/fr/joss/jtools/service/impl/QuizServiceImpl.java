@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Implémentation des services associés à l'entité {@link Quiz}
@@ -82,7 +81,7 @@ public class QuizServiceImpl extends GenericServiceImpl<Quiz> implements QuizSer
         Quiz quiz = findOne(quizId);
         quiz.setExecNumber(quiz.getExecNumber() + 1);
         User user = userService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
-        Set<Question> questions = quiz.getQuestions();
+        List<Question> questions = quiz.getQuestions();
         int nbCorrectAnswer = 0;
         for (Question question : questions) {
             QuestionUserId questionUserId = new QuestionUserId();
