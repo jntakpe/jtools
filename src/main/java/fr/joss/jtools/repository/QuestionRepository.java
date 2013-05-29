@@ -24,4 +24,5 @@ public interface QuestionRepository extends CrudRepository<Question, Long> {
     List<Long> findSortedIds(@Param("quiz") Quiz quiz);
 
     Question findByQuizAndNumber(Quiz quiz, Integer number);
+
 }

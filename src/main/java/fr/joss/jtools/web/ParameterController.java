@@ -53,17 +53,17 @@ public class ParameterController {
         return mv.addObject("responseMessage", ResponseMessage.getSuccessMessage(msg));
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseMessage loadParam(@PathVariable Long id) {
-        return ResponseMessage.getSuccessMessage("", parameterService.findOne(id));
-    }
-
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     public ResponseMessage delete(@PathVariable Long id) {
         Parameter parameter = parameterService.findOne(id);
         parameterService.delete(parameter);
         return ResponseMessage.getSuccessMessage("Paramètre '" + parameter.getKey() + "' supprimé");
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseMessage loadParam(@PathVariable Long id) {
+        return ResponseMessage.getSuccessMessage("", parameterService.findOne(id));
     }
 }

@@ -1,10 +1,9 @@
 package fr.joss.jtools.service.impl;
 
-import fr.joss.jtools.domain.Question;
-import fr.joss.jtools.domain.QuestionUser;
-import fr.joss.jtools.domain.Quiz;
+import fr.joss.jtools.domain.*;
 import fr.joss.jtools.repository.QuestionRepository;
 import fr.joss.jtools.repository.QuestionUserRepository;
+import fr.joss.jtools.repository.QuizUserRepository;
 import fr.joss.jtools.service.QuestionService;
 import fr.joss.jtools.service.QuizService;
 import fr.joss.jtools.service.UserService;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Implémentation des services associés à l'entité {@link Question}
@@ -31,6 +31,9 @@ public class QuestionServiceImpl extends GenericServiceImpl<Question> implements
 
     @Autowired
     private QuestionUserRepository questionUserRepository;
+
+    @Autowired
+    private QuizUserRepository quizUserRepository;
 
     @Autowired
     private QuizService quizService;
@@ -80,5 +83,27 @@ public class QuestionServiceImpl extends GenericServiceImpl<Question> implements
         ResponseQuestion response = new ResponseQuestion(nextQuestion, currentQuestion.getCorrectAnswer(),
                 answer.equals(currentQuestion.getCorrectAnswer()), currentQuestion.getExplanation());
         return response;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Question findLastQuestion(Quiz quiz) {
+        User user = userService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+        QuizUserId quizUserId = new QuizUserId();
+        quizUserId.setQuiz(quiz);
+        quizUserId.setUser(user);
+        QuizUser quizUser = quizUserRepository.findOne(quizUserId);
+        if (quizUser != null) {
+            List<Question> questions = quiz.getQuestions();
+            for (Question question : questions) {
+                QuestionUserId questionUserId = new QuestionUserId();
+                questionUserId.setUser(user);
+                questionUserId.setQuestion(question);
+                QuestionUser questionUser = questionUserRepository.findOne(questionUserId);
+                if (questionUser != null)
+                    return question;
+            }
+        }
+        return quiz.getQuestions().get(0);
     }
 }

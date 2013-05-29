@@ -3,9 +3,7 @@ package fr.joss.jtools.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Entité représentant un quiz
@@ -29,7 +27,7 @@ public class Quiz extends GenericDomain {
     @JsonIgnore
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.REMOVE)
     @OrderBy("number ASC")
-    private Set<Question> questions = new HashSet<>();
+    private List<Question> questions = new ArrayList<>();
 
     @ManyToOne
     private User creator;
@@ -65,11 +63,11 @@ public class Quiz extends GenericDomain {
         this.execNumber = execNumber;
     }
 
-    public Set<Question> getQuestions() {
+    public List<Question> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(Set<Question> questions) {
+    public void setQuestions(List<Question> questions) {
         this.questions = questions;
     }
 

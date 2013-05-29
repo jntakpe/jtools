@@ -22,4 +22,6 @@ public interface QuestionService extends GenericService<Question> {
 
     ResponseQuestion validCurrentGetNext(Long id, Integer answer);
 
+    Question findLastQuestion(Quiz quiz);
+
 }

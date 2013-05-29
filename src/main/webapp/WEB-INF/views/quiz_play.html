@@ -23,11 +23,11 @@
             <div class="row">
                 <div class="span6 noclear">
                     <h2>Question n°
-                        <span id="question-number" th:text="${quiz.questions[0].number + 1}"></span>
+                        <span id="question-number" th:text="${lastQuestion.number + 1}"></span>
                     </h2>
 
                     <div id="question-area">
-                        <span id="question-label" th:text="${quiz.questions[0].label}"></span>
+                        <span id="question-label" th:text="${lastQuestion.label}"></span>
                     </div>
                 </div>
                 <div id="timer" class="span2"></div>
@@ -36,19 +36,19 @@
                 <ul class="span6 offset1">
                     <li>
                         <input id="radio-1" name="quiz-radio" tabindex="1" type="radio" checked="checked" value="1"/>
-                        <label id="firstAnswer" for="radio-1" th:text="${quiz.questions[0].firstAnswer}"></label>
+                        <label id="firstAnswer" for="radio-1" th:text="${lastQuestion.firstAnswer}"></label>
                     </li>
                     <li>
                         <input id="radio-2" name="quiz-radio" tabindex="2" type="radio" value="2"/>
-                        <label id="secondAnswer" for="radio-2" th:text="${quiz.questions[0].secondAnswer}"></label>
+                        <label id="secondAnswer" for="radio-2" th:text="${lastQuestion.secondAnswer}"></label>
                     </li>
                     <li id="third-li">
                         <input id="radio-3" name="quiz-radio" tabindex="3" type="radio" value="3"/>
-                        <label id="thirdAnswer" for="radio-3" th:text="${quiz.questions[0].thirdAnswer}"></label>
+                        <label id="thirdAnswer" for="radio-3" th:text="${lastQuestion.thirdAnswer}"></label>
                     </li>
                     <li id="fourth-li">
                         <input id="radio-4" name="quiz-radio" tabindex="4" type="radio" value="4"/>
-                        <label id="fourthAnswer" for="radio-4" th:text="${quiz.questions[0].fourthAnswer}"></label>
+                        <label id="fourthAnswer" for="radio-4" th:text="${lastQuestion.fourthAnswer}"></label>
                     </li>
                 </ul>
             </div>

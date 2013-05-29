@@ -3,6 +3,7 @@ package fr.joss.jtools.web;
 import fr.joss.jtools.domain.Quiz;
 import fr.joss.jtools.domain.QuizUser;
 import fr.joss.jtools.domain.User;
+import fr.joss.jtools.service.QuestionService;
 import fr.joss.jtools.service.QuizService;
 import fr.joss.jtools.service.UserService;
 import fr.joss.jtools.util.IdVersion;
@@ -34,6 +35,9 @@ public class QuizController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private QuestionService questionService;
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
     public ModelAndView form() {
@@ -88,8 +92,6 @@ public class QuizController {
     @ResponseBody
     public Iterable<Quiz> editList(SecurityContextHolderAwareRequestWrapper request) {
         if (request.isUserInRole("ROLE_ADMIN")) {
-            if (true)
-                throw new NullPointerException();
             return quizService.findAll();
         } else {
             String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -109,7 +111,9 @@ public class QuizController {
         User user = userService.findByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
         if (!quizService.hasDone(user, id)) {
             ModelAndView mv = new ModelAndView("quiz_play");
-            return mv.addObject(quizService.findOne(id));
+            Quiz quiz = quizService.findOne(id);
+            mv.addObject(quiz);
+            return mv.addObject("lastQuestion", questionService.findLastQuestion(quiz));
         } else {
             return new ModelAndView("redirect:/quiz/play");
         }
