@@ -13,12 +13,13 @@
             <th>Créateur</th>
             <th>Date de création</th>
             <th>Nombre d'éxécutions</th>
+            <th>Résultat moyen</th>
             <th>Actions</th>
         </tr>
         </thead>
         <tbody>
         <tr>
-            <td colspan="5" class="dataTables_empty">Chargement des données</td>
+            <td colspan="6" class="dataTables_empty">Chargement des données</td>
         </tr>
         </tbody>
     </table>
@@ -30,12 +31,15 @@
         $('#quiz-table').dataTable({
             sAjaxSource: window.location.pathname + "/list",
             aoColumns: [
-                {mData: "title"},
+                {mData: "title" , sWidth: 150},
                 {mData: "creator.login"},
                 {mData: "createDate", sType: "date-euro", mRender: function (data) {
                     return moment(new Date(data)).format("DD/MM/YYYY HH:mm:ss");
                 }},
                 {mData: "execNumber"},
+                {mData : "meanResult", mRender : function (data) {
+                    return data + "%"
+                }},
                 actions()
             ]
         });

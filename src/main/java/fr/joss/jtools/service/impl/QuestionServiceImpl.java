@@ -6,7 +6,7 @@ import fr.joss.jtools.repository.QuestionUserRepository;
 import fr.joss.jtools.service.QuestionService;
 import fr.joss.jtools.service.QuizService;
 import fr.joss.jtools.service.UserService;
-import fr.joss.jtools.util.ResponseQuestion;
+import fr.joss.jtools.util.dto.ResponseQuestion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.security.core.context.SecurityContextHolder;

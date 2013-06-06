@@ -19,8 +19,14 @@ import java.util.List;
 public interface QuizUserRepository extends CrudRepository<QuizUser, QuizUserId> {
 
     @Query("SELECT q.result FROM QuizUser q WHERE q.quizUserId.quiz = :quiz")
-    List<Integer> getAllQuizResult(@Param("quiz") Quiz quiz);
+    List<Integer> findQuizResultByQuiz(@Param("quiz") Quiz quiz);
 
     @Query("SELECT q.quizUserId.quiz FROM QuizUser q WHERE q.quizUserId.user = :user")
-    List<Quiz> getAllDoneQuiz(@Param("user") User user);
+    List<Quiz> findDoneQuizByUser(@Param("user") User user);
+
+    @Query("SELECT q FROM QuizUser q WHERE q.quizUserId.user = :user")
+    List<QuizUser> findQuizUserByUser(@Param("user") User user);
+
+    @Query("SELECT q FROM QuizUser q WHERE q.quizUserId.quiz = :quiz ORDER BY q.result DESC")
+    List<QuizUser> findQuizUserByQuiz(@Param("quiz") Quiz quiz);
 }

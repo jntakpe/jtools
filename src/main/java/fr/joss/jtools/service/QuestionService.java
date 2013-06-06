@@ -2,7 +2,7 @@ package fr.joss.jtools.service;
 
 import fr.joss.jtools.domain.Question;
 import fr.joss.jtools.domain.Quiz;
-import fr.joss.jtools.util.ResponseQuestion;
+import fr.joss.jtools.util.dto.ResponseQuestion;
 
 import java.util.List;
 

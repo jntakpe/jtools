@@ -14,7 +14,7 @@
                            http://www.springframework.org/schema/data/jpa/spring-jpa-1.2.xsd">
     <bean id="jtoolsTestDS" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
         <property name="driverClass" value="org.postgresql.Driver"/>
-        <property name="jdbcUrl" value="jdbc:postgresql://localhost:5432/jtools"/>
+        <property name="jdbcUrl" value="jdbc:postgresql://localhost:5432/jtools-test"/>
         <property name="user" value="postgres"/>
         <property name="password" value="sopra*"/>
         <property name="initialPoolSize" value="10"/>

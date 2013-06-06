@@ -5,7 +5,7 @@ import fr.joss.jtools.domain.Quiz;
 import fr.joss.jtools.repository.QuizRepository;
 import fr.joss.jtools.service.QuestionService;
 import fr.joss.jtools.service.QuizService;
-import fr.joss.jtools.util.ResponseQuestion;
+import fr.joss.jtools.util.dto.ResponseQuestion;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

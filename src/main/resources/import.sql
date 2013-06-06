@@ -11,9 +11,9 @@ INSERT INTO public.users (id, version, birthdate, email, firstname, lastaccess, 
 INSERT INTO public.users (id, version, birthdate, email, firstname, lastaccess, lastname, login, password, phone, role) VALUES (2, 2, '1988-10-25 00:00:00', 'julien.guerrin@sopragroup.com', 'Julien', '2013-05-23 21:42:58', 'GUERRIN', 'JujuPiwi', 'lolilol', '51365', 'ROLE_USER');
 
 -- Table des quiz
-INSERT INTO public.quiz (id, version, createdate, execnumber, title, creator_id) VALUES (1, 1, '2013-05-10 16:19:11', 1, 'Java basics', 1);
-INSERT INTO public.quiz (id, version, createdate, execnumber, title, creator_id) VALUES (2, 2, '2013-05-23 21:37:25', 2, 'Cinema basics', 2);
-INSERT INTO public.quiz (id, version, createdate, execnumber, title, creator_id) VALUES (3, 1, '2013-05-23 21:29:20', 1, 'Foot Basics', 1);
+INSERT INTO public.quiz (id, version, createdate, execnumber, meanresult, title, creator_id) VALUES (1, 1, '2013-05-10 16:19:11', 1, 100, 'Java basics', 1);
+INSERT INTO public.quiz (id, version, createdate, execnumber, meanresult, title, creator_id) VALUES (2, 2, '2013-05-23 21:37:25', 2, 83, 'Cinema basics', 2);
+INSERT INTO public.quiz (id, version, createdate, execnumber, meanresult, title, creator_id) VALUES (3, 1, '2013-05-23 21:29:20', 1, 75, 'Foot Basics', 1);
 
 -- Table de jointure entre un utilisateur et un quiz
 INSERT INTO public.quiz_user (result, quiz_id, user_id) VALUES (100, 1, 1);
@@ -40,11 +40,8 @@ INSERT INTO public.question_user (answer, question_id, user_id) VALUES (4, 2, 1)
 INSERT INTO public.question_user (answer, question_id, user_id) VALUES (1, 3, 1);
 INSERT INTO public.question_user (answer, question_id, user_id) VALUES (2, 4, 1);
 INSERT INTO public.question_user (answer, question_id, user_id) VALUES (3, 9, 1);
-INSERT INTO public.question_user (answer, question_id, user_id) VALUES (2, 10, 1);
-INSERT INTO public.question_user (answer, question_id, user_id) VALUES (1, 11, 1);
 INSERT INTO public.question_user (answer, question_id, user_id) VALUES (2, 9, 2);
 INSERT INTO public.question_user (answer, question_id, user_id) VALUES (2, 10, 2);
-INSERT INTO public.question_user (answer, question_id, user_id) VALUES (1, 11, 2);
 INSERT INTO public.question_user (answer, question_id, user_id) VALUES (2, 5, 2);
 INSERT INTO public.question_user (answer, question_id, user_id) VALUES (3, 6, 2);
 INSERT INTO public.question_user (answer, question_id, user_id) VALUES (2, 7, 2);

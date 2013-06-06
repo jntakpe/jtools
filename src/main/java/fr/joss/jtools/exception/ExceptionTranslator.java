@@ -1,6 +1,6 @@
 package fr.joss.jtools.exception;
 
-import fr.joss.jtools.util.ResponseMessage;
+import fr.joss.jtools.util.dto.ResponseMessage;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;

@@ -17,12 +17,14 @@ public class Quiz extends GenericDomain {
     @Column(unique = true, nullable = false)
     private String title;
 
-
     @Column(nullable = false)
     private Date createDate;
 
     @Column(nullable = false)
     private Integer execNumber = 0;
+
+    @Column(nullable = false)
+    private Integer meanResult = 0;
 
     @JsonIgnore
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.REMOVE)
@@ -61,6 +63,14 @@ public class Quiz extends GenericDomain {
 
     public void setExecNumber(Integer execNumber) {
         this.execNumber = execNumber;
+    }
+
+    public Integer getMeanResult() {
+        return meanResult;
+    }
+
+    public void setMeanResult(Integer meanResult) {
+        this.meanResult = meanResult;
     }
 
     public List<Question> getQuestions() {

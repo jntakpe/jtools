@@ -1,7 +1,7 @@
 package fr.joss.jtools.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fr.joss.jtools.util.Role;
+import fr.joss.jtools.util.constants.Role;
 
 import javax.persistence.*;
 import java.util.Date;

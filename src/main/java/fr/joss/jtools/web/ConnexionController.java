@@ -1,7 +1,7 @@
 package fr.joss.jtools.web;
 
 
-import fr.joss.jtools.util.Role;
+import fr.joss.jtools.util.constants.Role;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

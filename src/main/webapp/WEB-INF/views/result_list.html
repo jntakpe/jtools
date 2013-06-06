@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="../fragments/headFragment :: head"></head>
+<body>
+<header th:include="../fragments/menuFragment :: fullMenu"></header>
+<div class="container row">
+    <div th:include="../fragments/alertFragment :: alertList"></div>
+    <h2>Résultats : </h2>
+
+    <div class="offset1">
+        <ul id="list-switch" class="nav nav-tabs">
+            <li class="active"><a href="#user"> par utilisateur</a></li>
+            <li><a href="#quiz"> par quiz</a></li>
+        </ul>
+    </div>
+    <div class="tab-content">
+        <div class="tab-pane active" id="user">
+            <table id="result-user-table" class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th>Login</th>
+                    <th>Nombre de quiz</th>
+                    <th>Résultat moyen</th>
+                    <th>Meilleur résultat</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td colspan="4" class="dataTables_empty">Chargement des données</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane" id="quiz">
+            <table id="result-quiz-table" class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Score</th>
+                    <th>Nombre d'éxécution</th>
+                    <th>Résultat moyen</th>
+                    <th>Meilleur score</th>
+                    <th>Recordmen</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td colspan="6" class="dataTables_empty">Chargement des données</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+<div th:include="../fragments/popupFragment :: confirmDeletePopupFragment"></div>
+<script type="text/javascript">
+    $(function () {
+        'use strict';
+
+        $('#result-user-table').dataTable({
+            sAjaxSource: "userstats",
+            aoColumns: [
+                {mData: "login"},
+                {mData: "nbQuiz"},
+                {mData: "meanResult", mRender: function (data) {
+                    if (data === null) {
+                        return "-"
+                    }
+                    return data + "%"
+                }},
+                {mData: "bestResultScore", mRender: function (data, type, full) {
+                    if (data === null) {
+                        return "-"
+                    }
+                    return data + "% @" + full.bestResultQuiz;
+                }}
+            ]
+        });
+
+        $('#result-quiz-table').dataTable({
+            sAjaxSource: "quizstats",
+            aoColumns: [
+                {mData: "title"},
+                {mData: "score", mRender: function (data) {
+                    if (data === null) {
+                        return "-"
+                    }
+                    return data + "%"
+                }},
+                {mData: "nbExec"},
+                {mData: "meanResult", mRender: function (data) {
+                    if (data === null) {
+                        return "-"
+                    }
+                    return data + "%"
+                }},
+                {mData: "bestScore.score", mRender: function (data) {
+                    if (data === null) {
+                        return "-"
+                    }
+                    return data + "%"
+                }},
+                {mData: "bestScore.recordmen", mRender: "[, ]"}
+            ]
+        });
+
+        $('#list-switch a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        })
+    });
+</script>
+</body>
+</html>

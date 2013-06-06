@@ -2,9 +2,9 @@ package fr.joss.jtools.web;
 
 import fr.joss.jtools.domain.Question;
 import fr.joss.jtools.service.QuestionService;
-import fr.joss.jtools.util.IdVersion;
-import fr.joss.jtools.util.ResponseMessage;
-import fr.joss.jtools.util.ResponseQuestion;
+import fr.joss.jtools.util.dto.IdVersion;
+import fr.joss.jtools.util.dto.ResponseMessage;
+import fr.joss.jtools.util.dto.ResponseQuestion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

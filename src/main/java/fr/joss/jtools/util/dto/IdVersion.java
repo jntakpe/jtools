@@ -1,4 +1,4 @@
-package fr.joss.jtools.util;
+package fr.joss.jtools.util.dto;
 
 /**
  * POJO utilisé pour mettre à jour les ids et versions d'un formulaire

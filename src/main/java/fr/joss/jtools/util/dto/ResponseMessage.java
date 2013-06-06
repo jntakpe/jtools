@@ -1,4 +1,4 @@
-package fr.joss.jtools.util;
+package fr.joss.jtools.util.dto;
 
 /**
  * Réponse renvoyée par l'application aux requêtes notamment aux requêtes AJAX.

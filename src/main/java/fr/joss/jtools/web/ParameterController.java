@@ -2,7 +2,7 @@ package fr.joss.jtools.web;
 
 import fr.joss.jtools.domain.Parameter;
 import fr.joss.jtools.service.ParameterService;
-import fr.joss.jtools.util.ResponseMessage;
+import fr.joss.jtools.util.dto.ResponseMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

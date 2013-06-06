@@ -1,4 +1,4 @@
-package fr.joss.jtools.util;
+package fr.joss.jtools.util.constants;
 
 /**
  * Énumération des rôles des utilisateurs de l'application

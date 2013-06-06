@@ -3,6 +3,8 @@ package fr.joss.jtools.service;
 import fr.joss.jtools.domain.Quiz;
 import fr.joss.jtools.domain.QuizUser;
 import fr.joss.jtools.domain.User;
+import fr.joss.jtools.util.dto.QuizStats;
+import fr.joss.jtools.util.dto.UserStats;
 
 import java.util.Collection;
 import java.util.List;
@@ -26,4 +28,8 @@ public interface QuizService extends GenericService<Quiz> {
     Collection<Quiz> findUndoneQuiz(User user);
 
     boolean hasDone(User user, Long quizId);
+
+    List<UserStats> calcUserStats();
+
+    List<QuizStats> calcQuizStats();
 }

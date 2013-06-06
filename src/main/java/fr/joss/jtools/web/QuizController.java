@@ -6,8 +6,10 @@ import fr.joss.jtools.domain.User;
 import fr.joss.jtools.service.QuestionService;
 import fr.joss.jtools.service.QuizService;
 import fr.joss.jtools.service.UserService;
-import fr.joss.jtools.util.IdVersion;
-import fr.joss.jtools.util.ResponseMessage;
+import fr.joss.jtools.util.dto.IdVersion;
+import fr.joss.jtools.util.dto.QuizStats;
+import fr.joss.jtools.util.dto.ResponseMessage;
+import fr.joss.jtools.util.dto.UserStats;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Contrôleur gérant les écrans relatifs à l'entité {@link Quiz}
@@ -126,5 +129,22 @@ public class QuizController {
         mv.addObject("quizTitle", quizUser.getQuiz().getTitle());
         mv.addObject("quizResult", quizUser.getResult());
         return mv.addObject("mean", quizService.averageQuizResult(quizUser.getQuiz()));
+    }
+
+    @RequestMapping(value = "/stats", method = RequestMethod.GET)
+    public String displayStats() {
+        return "result_list";
+    }
+
+    @RequestMapping(value = "/userstats", method = RequestMethod.GET)
+    @ResponseBody
+    public List<UserStats> displayUserStats() {
+        return quizService.calcUserStats();
+    }
+
+    @RequestMapping(value = "/quizstats", method = RequestMethod.GET)
+    @ResponseBody
+    public List<QuizStats> displayQuizStats() {
+        return quizService.calcQuizStats();
     }
 }

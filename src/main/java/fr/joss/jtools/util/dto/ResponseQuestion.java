@@ -1,4 +1,4 @@
-package fr.joss.jtools.util;
+package fr.joss.jtools.util.dto;
 
 import fr.joss.jtools.domain.Question;
 

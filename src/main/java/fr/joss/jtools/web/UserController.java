@@ -2,8 +2,8 @@ package fr.joss.jtools.web;
 
 import fr.joss.jtools.domain.User;
 import fr.joss.jtools.service.UserService;
-import fr.joss.jtools.util.ResponseMessage;
-import fr.joss.jtools.util.Role;
+import fr.joss.jtools.util.dto.ResponseMessage;
+import fr.joss.jtools.util.constants.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

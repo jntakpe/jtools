@@ -7,7 +7,8 @@ import fr.joss.jtools.repository.QuizUserRepository;
 import fr.joss.jtools.service.QuestionService;
 import fr.joss.jtools.service.QuizService;
 import fr.joss.jtools.service.UserService;
-import fr.joss.jtools.util.ResponseQuestion;
+import fr.joss.jtools.util.dto.ResponseQuestion;
+import fr.joss.jtools.util.dto.UserStats;
 import org.joda.time.Instant;
 import org.joda.time.Minutes;
 import org.junit.Test;
@@ -106,6 +107,7 @@ public class QuizServiceImplTest extends AbstractTransactionalJUnit4SpringContex
                 new UsernamePasswordAuthenticationToken("jOSS", "lolilol"));
         User joss = userService.findByLogin("joss");
         Quiz footBasics = quizRepository.findByTitleIgnoreCase("Foot Basics");
+        Integer nbExec = footBasics.getExecNumber();
         int correct = 0;
         for (Question question : footBasics.getQuestions()) {
             ResponseQuestion resp = questionService.validCurrentGetNext(question.getId(), 2);
@@ -113,6 +115,9 @@ public class QuizServiceImplTest extends AbstractTransactionalJUnit4SpringContex
                 correct++;
         }
         quizService.saveResult(footBasics.getId());
+        Quiz managedFootBasics = quizService.findOne(footBasics.getId());
+        assertEquals(new Integer(nbExec + 1), managedFootBasics.getExecNumber());
+        assertEquals(new Integer((75 + 50) / 2), managedFootBasics.getMeanResult());
         QuizUserId quizUserId = new QuizUserId();
         quizUserId.setUser(joss);
         quizUserId.setQuiz(footBasics);
@@ -177,5 +182,24 @@ public class QuizServiceImplTest extends AbstractTransactionalJUnit4SpringContex
         quizUserId.setQuiz(javaBasics);
         assertNull(quizUserRepository.findOne(quizUserId));
     }
+
+    @Test
+    public void calcUserStatsTest() {
+        List<UserStats> userStatsList = quizService.calcUserStats();
+        assertEquals(2, userStatsList.size());
+        for (UserStats userStats : userStatsList) {
+            if (userStats.getLogin().equalsIgnoreCase("jOSS")) {
+                assertEquals(100, userStats.getMeanResult());
+                assertEquals(100, userStats.getBestResultScore());
+            } else if (userStats.getLogin().equalsIgnoreCase("JujuPiwi")){
+                assertEquals(70, userStats.getMeanResult());
+                assertEquals(75, userStats.getBestResultScore());
+            } else {
+                fail("WTF");
+            }
+        }
+    }
+
+
 
 }
