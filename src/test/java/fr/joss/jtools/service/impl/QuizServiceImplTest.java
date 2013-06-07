@@ -7,6 +7,7 @@ import fr.joss.jtools.repository.QuizUserRepository;
 import fr.joss.jtools.service.QuestionService;
 import fr.joss.jtools.service.QuizService;
 import fr.joss.jtools.service.UserService;
+import fr.joss.jtools.util.dto.QuizStats;
 import fr.joss.jtools.util.dto.ResponseQuestion;
 import fr.joss.jtools.util.dto.UserStats;
 import org.joda.time.Instant;
@@ -191,15 +192,36 @@ public class QuizServiceImplTest extends AbstractTransactionalJUnit4SpringContex
             if (userStats.getLogin().equalsIgnoreCase("jOSS")) {
                 assertEquals(100, userStats.getMeanResult());
                 assertEquals(100, userStats.getBestResultScore());
-            } else if (userStats.getLogin().equalsIgnoreCase("JujuPiwi")){
+            } else if (userStats.getLogin().equalsIgnoreCase("JujuPiwi")) {
                 assertEquals(70, userStats.getMeanResult());
                 assertEquals(75, userStats.getBestResultScore());
             } else {
-                fail("WTF");
+                fail("Jeu de données incorrect");
             }
         }
     }
 
-
+    @Test
+    public void calcQuizStatsTest() {
+        List<QuizStats> quizStatsJava = quizService.calcQuizStats();
+        assertEquals(3, quizStatsJava.size());
+        for (QuizStats quizStats : quizStatsJava) {
+            if (quizStats.getTitle().equalsIgnoreCase("Java basics")) {
+                assertEquals(1, quizStats.getBestScore().getRecordmen().size());
+                assertEquals("jOSS", quizStats.getBestScore().getRecordmen().get(0));
+                assertEquals(new Integer(100), quizStats.getBestScore().getScore());
+            } else if (quizStats.getTitle().equalsIgnoreCase("Foot Basics")) {
+                assertEquals(1, quizStats.getBestScore().getRecordmen().size());
+                assertEquals("JujuPiwi", quizStats.getBestScore().getRecordmen().get(0));
+                assertEquals(new Integer(75), quizStats.getBestScore().getScore());
+            } else if (quizStats.getTitle().equalsIgnoreCase("Cinema Basics")) {
+                assertEquals(1, quizStats.getBestScore().getRecordmen().size());
+                assertEquals("jOSS", quizStats.getBestScore().getRecordmen().get(0));
+                assertEquals(new Integer(100), quizStats.getBestScore().getScore());
+            } else {
+                fail("Jeu de données incorrect");
+            }
+        }
+    }
 
 }

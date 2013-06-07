@@ -38,6 +38,9 @@
                 }},
                 {mData: "execNumber"},
                 {mData : "meanResult", mRender : function (data) {
+                    if (data === null) {
+                        return "-"
+                    }
                     return data + "%"
                 }},
                 actions()
