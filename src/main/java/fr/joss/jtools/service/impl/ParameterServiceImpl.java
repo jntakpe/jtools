@@ -31,4 +31,11 @@ public class ParameterServiceImpl extends GenericServiceImpl<Parameter> implemen
         return parameterRepository.findByKey(key);
     }
 
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean isKeyAvailable(Long id, String key) {
+        Parameter param = findByKey(key);
+        return param == null || param.getId().equals(id);
+    }
 }

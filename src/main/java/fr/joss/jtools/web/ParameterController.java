@@ -37,11 +37,12 @@ public class ParameterController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ModelAndView save(@ModelAttribute Parameter parameter) {
+    @ResponseBody
+    public ResponseMessage save(@ModelAttribute Parameter parameter) {
         boolean isNew = parameter.getId() == null;
         String msg;
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        parameterService.save(parameter);
+        Parameter param = parameterService.save(parameter);
         if (isNew) {
             logger.info("{} a créé le paramètre {}", username, parameter);
             msg = "Paramètre '" + parameter.getKey() + "' créé.";
@@ -49,8 +50,7 @@ public class ParameterController {
             logger.info("{} a modifié le paramètre {}", username, parameter);
             msg = "Paramètre '" + parameter.getKey() + "' modifié.";
         }
-        ModelAndView mv = new ModelAndView("parameter_list");
-        return mv.addObject("responseMessage", ResponseMessage.getSuccessMessage(msg));
+        return ResponseMessage.getSuccessMessage(msg, param);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
@@ -63,7 +63,13 @@ public class ParameterController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseMessage loadParam(@PathVariable Long id) {
-        return ResponseMessage.getSuccessMessage("", parameterService.findOne(id));
+    public Parameter load(@PathVariable Long id) {
+        return parameterService.findOne(id);
+    }
+
+    @RequestMapping(value = "/keyunicity", method = RequestMethod.GET)
+    @ResponseBody
+    public boolean controlUnicity(@RequestParam(required = false) Long id, @RequestParam String key) {
+        return parameterService.isKeyAvailable(id , key);
     }
 }

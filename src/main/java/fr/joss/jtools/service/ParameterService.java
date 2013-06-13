@@ -12,4 +12,6 @@ public interface ParameterService extends GenericService<Parameter> {
 
     Parameter findByKey(String key);
 
+    boolean isKeyAvailable(Long id, String key);
+
 }

@@ -141,7 +141,7 @@ var jTools = {
                 sClass: "center",
                 mRender: function (data) {
                     var path = window.location.pathname, editUrl, btnEdit, fct, btnDelete;
-                    btnEdit = "<a href='javascript:;' class='edit-btn' onclick='jTools.popup.edit(" + data + ")'>" +
+                    btnEdit = "<a href='javascript:;' class='edit-btn' onclick='jTools.popup.edit(" + data + ",$(this))'>" +
                         "<i class='icon-edit icon-large'></i></a>";
                     fct = "jTools.popup.confirm(" + data + ",$(this))";
                     btnDelete = "<a href='javascript:;' onclick='" + fct + "'>" +
@@ -180,8 +180,9 @@ var jTools = {
         /**
          * Affiche la popup d'édition d'une entité
          * @param id identifiant de l'entité
+         * @param event évennement
          */
-        edit: function (id) {
+        edit: function (id, event) {
             var editUrl;
             if (window.location.pathname.match(/\/$/)) {
                 editUrl = window.location.pathname + id;
@@ -193,17 +194,14 @@ var jTools = {
             }).done(
                 function (response) {
                     var field;
-                    if (response.success) {
-                        for (field in response.data) {
-                            if (response.data.hasOwnProperty(field)) {
-                                $('input[name="' + field + '"]').val(response.data[field]);
-                            }
+                    for (field in response) {
+                        if (response.hasOwnProperty(field)) {
+                            $('input[name="' + field + '"]').val(response[field]);
                         }
-                        $('#popupTitle').text($('#editTitle').val());
-                        $('#popup').modal();
-                    } else {
-                        jTools.alert.error("list", response.message);
                     }
+                    $('#popupTitle').text($('#editTitle').val());
+                    $('#popup').modal();
+                    $('#popup').data('row', event.parents('tr')[0]);
                 }
             ).error(
                 function () {
