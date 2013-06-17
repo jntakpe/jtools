@@ -92,6 +92,7 @@ $.extend(true, $.fn.dataTable.defaults, {
     "bLengthChange": false,
     "oSearch": {"bSmart": false},
     "sAjaxDataProp": "",
+    "iDisplayLength": 12,
     "sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>",
     "sPaginationType": "bootstrap",
     "oLanguage": {
@@ -318,6 +319,27 @@ jQuery.extend(jQuery.fn.dataTableExt.oSort, {
     },
 
     "date-euro-desc": function (a, b) {
+        return b - a;
+    }
+});
+
+jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+    "date-euro-simple-pre": function (a) {
+        if ($.trim(a) != '') {
+            var frDatea = $.trim(a).split(' ');
+            var frDatea2 = frDatea[0].split('/');
+            var x = (frDatea2[2] + frDatea2[1] + frDatea2[0]) * 1;
+        } else {
+            var x = 10000000000000;
+        }
+        return x;
+    },
+
+    "date-euro-simple-asc": function (a, b) {
+        return a - b;
+    },
+
+    "date-euro-simple-desc": function (a, b) {
         return b - a;
     }
 });

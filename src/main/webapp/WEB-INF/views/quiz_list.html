@@ -25,19 +25,21 @@
     </table>
 </div>
 <div th:include="../fragments/popupFragment :: confirmDeletePopupFragment"></div>
+<footer th:include="../fragments/footerFragment :: footer">
+</footer>
 <script type="text/javascript">
     $(function () {
         "use strict";
         $('#quiz-table').dataTable({
             sAjaxSource: window.location.pathname + "/list",
             aoColumns: [
-                {mData: "title" , sWidth: 150},
+                {mData: "title", sWidth: 150},
                 {mData: "creator.login"},
                 {mData: "createDate", sType: "date-euro", mRender: function (data) {
                     return moment(new Date(data)).format("DD/MM/YYYY HH:mm:ss");
                 }},
                 {mData: "execNumber"},
-                {mData : "meanResult", mRender : function (data) {
+                {mData: "meanResult", mRender: function (data) {
                     if (data === null) {
                         return "-"
                     }

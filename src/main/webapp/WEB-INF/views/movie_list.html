@@ -14,10 +14,10 @@
             <th>Ajouté par</th>
             <th>Date d'ajout</th>
             <th>Note</th>
-            <th>Amelia</th>
-            <th>Charles</th>
-            <th>Julien</th>
-            <th>Jocelyn</th>
+            <th th:text="${users[0].display}"></th>
+            <th th:text="${users[1].display}"></th>
+            <th th:text="${users[2].display}"></th>
+            <th th:text="${users[3].display}"></th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -43,24 +43,62 @@
         <input id="editTitle" type="hidden" value="Modification d'un film"/>
     </div>
     <div class="modal-body">
-        <form id="popupForm" th:action="@{/movie}" method="post">
+        <form id="popupForm" th:action="@{/movie}" class="icheck" method="post">
             <input type="hidden" id="id" name="id"/>
             <input type="hidden" id="version" name="version"/>
 
+
             <div class="control-group">
-                <label class="control-label" for="key">Clé</label>
+                <label class="control-label" for="title">Titre</label>
 
                 <div class="controls">
-                    <input type="text" id="key" name="key" maxlength="40"/>
+                    <input type="text" id="title" name="title"/>
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="value">Valeur</label>
+                <label class="control-label" for="director">Réalisateur</label>
 
                 <div class="controls">
-                    <input type="text" id="value" name="value"/>
+                    <input type="text" id="director" name="director"/>
                 </div>
             </div>
+            <div class="control-group">
+                <label class="control-label" for="ratings">Note</label>
+
+                <div class="controls">
+                    <select id="ratings" name="ratings" class="input-mini">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5" selected="selected">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+            </div>
+            <ul id="seenBy">
+                <li>
+                    <input type="checkbox" id="ameliaSawIt" name="ameliaSawIt"/>
+                    <label for="ameliaSawIt">Vu par Amelia</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="selrakSawIt" name="selrakSawIt"/>
+                    <label for="selrakSawIt">Vu par Charles</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="jujupiwiSawIt" name="jujupiwiSawIt"/>
+                    <label for="jujupiwiSawIt">Vu par Julien</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="jossSawIt" name="jossSawIt"/>
+                    <label for="jossSawIt">Vu par Jocelyn</label>
+                </li>
+            </ul>
         </form>
     </div>
     <div class="modal-footer">
@@ -77,69 +115,9 @@
 
 <div th:include="../fragments/popupFragment :: confirmDeletePopupFragment"></div>
 
-<script type="text/javascript">
-    $(function () {
-        "use strict";
-        var paramTable = $('#parameter-table').dataTable({
-            sAjaxSource: "param/list",
-            aoColumns: [
-                {mData: "key"},
-                {mData: "value"},
-                jTools.table.actionPopup()
-            ]
-        });
+<footer th:include="../fragments/footerFragment :: footer">
+</footer>
 
-        var validForm = $('#popupForm').validate({
-            submitHandler: function(form) {
-                var row = $("#popup").data("row");
-                $(form).ajaxSubmit({
-                    success : function (response) {
-                        if (response.success) {
-                            if (row) {
-                                paramTable.fnDeleteRow(row);
-                            }
-                            paramTable.fnAddData(response.data);
-                            jTools.alert.success('list', response.message);
-                        } else {
-                            jTools.alert.error('list', response.message);
-                        }
-                    },
-                    error : function () {
-                        jTools.alert.error('list');
-                        $('#popup').modal('hide');
-                    }
-                });
-                $('#popup').modal('hide');
-            }, rules : {
-                key : {
-                    required : true,
-                    remote : {
-                        url : "param/keyunicity",
-                        data : {
-                            id : $('#id').val()
-                        }
-                    }
-                },
-                value : {
-                    required: true
-                }
-            }, messages : {
-                key : {
-                    remote : "Cette clé est déjà utilisée."
-                }
-            }
-        });
-
-        $('#popup').on('hidden', function () {
-            var form = $("#popupForm");
-            validForm.resetForm();
-            form.find('.control-group').removeClass('error');
-            form.removeData('row');
-            $('#id').val("");
-            $('#version').val("");
-        });
-    });
-
-</script>
+<script th:src="@{/static/js/specific/movie-list.js}"></script>
 </body>
 </html>

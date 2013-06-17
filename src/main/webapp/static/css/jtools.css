@@ -30,23 +30,29 @@
     margin-top: 40px;
 }
 
-#quiz-list ul li {
+.icheck ul li {
     position: relative;
     padding: 12px 0 12px 42px;
     list-style-type: none;
 }
 
-#quiz-list ul input {
+.icheck ul input {
     position: absolute;
     top: 4px;
     left: 0;
 }
 
-#quiz-list ul label {
+.icheck ul label {
     font-size: 18px;
 }
 
-#quiz-list ul .iradio_square-orange {
+.icheck ul .iradio_square-orange {
+    position: absolute;
+    top: -1px;
+    left: 0;
+}
+
+.icheck ul .icheckbox_square-orange {
     position: absolute;
     top: -1px;
     left: 0;
@@ -78,6 +84,10 @@
 
 #quiz-results > h2 {
     margin-bottom: 50px;
+}
+
+#seenBy {
+    margin-top: 18px;
 }
 
 

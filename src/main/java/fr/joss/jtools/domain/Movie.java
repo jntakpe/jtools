@@ -1,6 +1,9 @@
 package fr.joss.jtools.domain;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import java.util.Date;
 
 /**
@@ -12,7 +15,7 @@ import java.util.Date;
 @SequenceGenerator(name = "SG", sequenceName = "SEQ_MOVIE")
 public class Movie extends GenericDomain {
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String title;
 
     @Column(nullable = false)
@@ -24,6 +27,7 @@ public class Movie extends GenericDomain {
     @Column(nullable = false)
     private Date addDate;
 
+    @Column(nullable = false)
     private Integer ratings;
 
     private boolean jossSawIt = false;

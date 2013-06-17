@@ -69,6 +69,8 @@
 </div>
 
 <div th:include="../fragments/popupFragment :: confirmDeletePopupFragment"></div>
+<footer th:include="../fragments/footerFragment :: footer">
+</footer>
 
 <script type="text/javascript">
     $(function () {
@@ -83,10 +85,10 @@
         });
 
         var validForm = $('#popupForm').validate({
-            submitHandler: function(form) {
+            submitHandler: function (form) {
                 var row = $("#popup").data("row");
                 $(form).ajaxSubmit({
-                    success : function (response) {
+                    success: function (response) {
                         if (response.success) {
                             if (row) {
                                 paramTable.fnDeleteRow(row);
@@ -97,39 +99,48 @@
                             jTools.alert.error('list', response.message);
                         }
                     },
-                    error : function () {
+                    error: function () {
                         jTools.alert.error('list');
                         $('#popup').modal('hide');
                     }
                 });
                 $('#popup').modal('hide');
-            }, rules : {
-                key : {
-                    required : true,
-                    remote : {
-                        url : "param/keyunicity",
-                        data : {
-                            id : $('#id').val()
-                        }
-                    }
+            }, rules: {
+                key: {
+                    required: true
                 },
-                value : {
+                value: {
                     required: true
                 }
-            }, messages : {
-                key : {
-                    remote : "Cette clé est déjà utilisée."
+            }, messages: {
+                key: {
+                    remote: "Cette clé est déjà utilisée."
                 }
             }
         });
 
+
+        $('#popup').on('shown', function () {
+            $('#key').rules('add', {
+                remote: {
+                    url: "param/keyunicity",
+                    data: {
+                        id: $('#id').val()
+                    }
+                }
+            });
+        });
+
+
         $('#popup').on('hidden', function () {
             var form = $("#popupForm");
             validForm.resetForm();
+            $('#key').removeData('previousValue');
             form.find('.control-group').removeClass('error');
             form.removeData('row');
             $('#id').val("");
             $('#version').val("");
+            $('#key').rules('remove', 'remote');
         });
     });
 

@@ -140,7 +140,7 @@ var jTools = {
                 bSortable: false,
                 sClass: "center",
                 mRender: function (data) {
-                    var path = window.location.pathname, editUrl, btnEdit, fct, btnDelete;
+                    var btnEdit, fct, btnDelete;
                     btnEdit = "<a href='javascript:;' class='edit-btn' onclick='jTools.popup.edit(" + data + ",$(this))'>" +
                         "<i class='icon-edit icon-large'></i></a>";
                     fct = "jTools.popup.confirm(" + data + ",$(this))";
@@ -183,7 +183,8 @@ var jTools = {
          * @param event évennement
          */
         edit: function (id, event) {
-            var editUrl;
+            "use strict";
+            var editUrl, popup = $('#popup');
             if (window.location.pathname.match(/\/$/)) {
                 editUrl = window.location.pathname + id;
             } else {
@@ -200,8 +201,8 @@ var jTools = {
                         }
                     }
                     $('#popupTitle').text($('#editTitle').val());
-                    $('#popup').modal();
-                    $('#popup').data('row', event.parents('tr')[0]);
+                    popup.modal();
+                    popup.data('row', event.parents('tr')[0]);
                 }
             ).error(
                 function () {
@@ -213,6 +214,7 @@ var jTools = {
          * Affiche la popup de création d'une nouvelle entité
          */
         popupNew: function () {
+            "use strict";
             $('#popupTitle').text($('#newTitle').val());
             $('#popup').modal('show');
         }

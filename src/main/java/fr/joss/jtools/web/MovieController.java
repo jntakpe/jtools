@@ -3,6 +3,7 @@ package fr.joss.jtools.web;
 
 import fr.joss.jtools.domain.Movie;
 import fr.joss.jtools.service.MovieService;
+import fr.joss.jtools.util.constants.MovieUsers;
 import fr.joss.jtools.util.dto.ResponseMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Contrôleur gérant les écrans relatifs à l'entité {@link Movie}
@@ -26,8 +28,9 @@ public class MovieController {
     private MovieService movieService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String display() {
-        return "movie_list";
+    public ModelAndView display() {
+        ModelAndView mv = new ModelAndView("movie_list");
+        return mv.addObject("users", MovieUsers.values());
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -59,5 +62,18 @@ public class MovieController {
     @ResponseBody
     public Movie load(@PathVariable Long id) {
         return movieService.findOne(id);
+    }
+
+    @RequestMapping(value = "/titleunicity", method = RequestMethod.GET)
+    @ResponseBody
+    public boolean controlUnicity(@RequestParam(required = false) Long id, @RequestParam String title) {
+        return movieService.isTitleAvailable(id, title);
+    }
+
+    @RequestMapping(value = "/switch", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseMessage switchSawBy(Long id, String field, boolean changeTo) {
+        movieService.switchSaw(id, field, changeTo);
+        return ResponseMessage.getSuccessMessage("Film mis à jour");
     }
 }

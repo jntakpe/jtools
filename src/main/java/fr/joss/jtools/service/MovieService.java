@@ -10,4 +10,7 @@ import fr.joss.jtools.domain.Movie;
  */
 public interface MovieService extends GenericService<Movie> {
 
+    boolean isTitleAvailable(Long id, String title);
+
+    void switchSaw(Long id, String username, boolean value);
 }
