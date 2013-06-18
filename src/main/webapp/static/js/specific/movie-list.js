@@ -32,7 +32,6 @@ function switchSeen(btn) {
         });
 }
 
-
 $(function () {
     "use strict";
 
@@ -46,20 +45,24 @@ $(function () {
             {mData: "title", sWidth: 400},
             {mData: "director", sWidth: 200},
             {mData: "addedBy.login"},
-            {mData: "addDate", sType: "date-euro-simple", mRender: function (data) {
+            {mData: "addDate", sType: "date-euro-simple", bSearchable: false, mRender: function (data) {
                 return moment(new Date(data)).format("DD/MM/YYYY");
             }},
             {mData: "ratings"},
-            {mData: "ameliaSawIt", bSortable: false, sClass: "center", mRender: function (data, type, full) {
+            {mData: "ameliaSawIt", bSortable: false, bSearchable: false, sClass: "center",
+                mRender: function (data, type, full) {
                 return renderSeenBy(data, type, full);
             }},
-            {mData: "selrakSawIt", bSortable: false, sClass: "center", mRender: function (data, type, full) {
+            {mData: "selrakSawIt", bSortable: false, bSearchable: false, sClass: "center",
+                mRender: function (data, type, full) {
                 return renderSeenBy(data, type, full);
             }},
-            {mData: "jujupiwiSawIt", bSortable: false, sClass: "center", mRender: function (data, type, full) {
+            {mData: "jujupiwiSawIt", bSortable: false, bSearchable: false, sClass: "center",
+                mRender: function (data, type, full) {
                 return renderSeenBy(data, type, full);
             }},
-            {mData: "jossSawIt", bSortable: false, sClass: "center", mRender: function (data, type, full) {
+            {mData: "jossSawIt", bSortable: false, bSearchable: false, sClass: "center",
+                mRender: function (data, type, full) {
                 return renderSeenBy(data, type, full);
             }},
             jTools.table.actionPopup()
@@ -122,16 +125,7 @@ $(function () {
         form.removeData('row');
         $('#title').removeData('previousData');
         form.find('input:hidden').val("");
-        $('#jossSawIt').iCheck('uncheck');
-        $('#selrakSawIt').iCheck('uncheck');
-        $('#jujupiwiSawIt').iCheck('uncheck');
-        $('#ameliaSawIt').iCheck('uncheck');
         $('#title').rules('remove', 'remote');
-    });
-
-    $('#seenBy input').iCheck({
-        checkboxClass: 'icheckbox_square-orange',
-        increaseArea: '50%'
     });
 });
 

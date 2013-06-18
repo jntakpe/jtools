@@ -197,7 +197,12 @@ var jTools = {
                     var field;
                     for (field in response) {
                         if (response.hasOwnProperty(field)) {
-                            $('input[name="' + field + '"]').val(response[field]);
+                            var input = $('input[name="' + field + '"]');
+                            if (input.length !== 0) {
+                                input.val(response[field]);
+                            } else {
+                                $('select[name="' + field + '"]').val(response[field]);
+                            }
                         }
                     }
                     $('#popupTitle').text($('#editTitle').val());
