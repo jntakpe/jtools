@@ -42,6 +42,10 @@ public class MovieServiceImpl extends GenericServiceImpl<Movie> implements Movie
             Movie old = findOne(movie.getId());
             movie.setAddedBy(old.getAddedBy());
             movie.setAddDate(old.getAddDate());
+            movie.setAmeliaSawIt(old.isAmeliaSawIt());
+            movie.setSelrakSawIt(old.isSelrakSawIt());
+            movie.setJossSawIt(old.isJossSawIt());
+            movie.setJujupiwiSawIt(old.isJujupiwiSawIt());
         }
         return super.save(movie);
     }
